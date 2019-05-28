@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.handlers.CameraHandler;
@@ -57,6 +58,8 @@ public class GameLauncher extends Engine {
 
         assetHandler.addToQueue(Music.class, "musExample","example.ogg");
         assetHandler.addToQueue(Sound.class, "sndExample","test.wav");
+
+        assetHandler.addToQueue(BitmapFont.class,"fntDigits","digits.fnt");
         super.loadAssets();
     }
 

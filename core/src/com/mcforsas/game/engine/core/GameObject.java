@@ -36,10 +36,4 @@ public abstract class GameObject extends Renderable{
     public void setLevel(Level level) {
         this.level = level;
     }
-
-    @Override
-    public void end() {
-        super.end();
-        this.level.removeGameObject(this);
-    }
 }

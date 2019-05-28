@@ -48,6 +48,7 @@ public abstract class Level extends Renderable{
 
         gameObjects.clear();
         super.end();
+
         isStarted = false;
         isRendered = false;
     }

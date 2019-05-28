@@ -17,15 +17,11 @@ public abstract class Renderable extends Entitie {
 
     public boolean WARN_NO_SPRITE = false; //Weather to print stack trace if no sprite is set
 
-    public Renderable(){
-
-    }
-
     @Override
     public void start() {
-        super.start();
         Engine.getRenderHandler().addRenderable(this);
         isRendered = true;
+        super.start();
     }
 
     public void render(SpriteBatch spriteBatch, float deltaTime){
@@ -39,9 +35,9 @@ public abstract class Renderable extends Entitie {
 
     @Override
     public void end() {
-        super.end();
         isRendered = false;
         GameLauncher.getRenderHandler().removeRenderable(this);
+        super.end();
     }
 
     //region <Getters and setters>
