@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.handlers.CameraHandler;
 import com.mcforsas.game.engine.handlers.FileHandler;
+import com.mcforsas.game.gameObjects.GODigitRenderer;
 import com.mcforsas.game.levels.LVLMainMenu;
 import com.mcforsas.game.levels.LVLPlanet;
 
@@ -59,7 +60,11 @@ public class GameLauncher extends Engine {
         assetHandler.addToQueue(Music.class, "musExample","example.ogg");
         assetHandler.addToQueue(Sound.class, "sndExample","test.wav");
 
-        assetHandler.addToQueue(BitmapFont.class,"fntDigits","digits.fnt");
+        //assetHandler.addToQueue(BitmapFont.class,"fntDigits","digits.fnt");
+
+        for(int i = 0; i < 10; i++){
+            assetHandler.addToQueue(Texture.class, GODigitRenderer.TEXTURE_PREFIX + i, "font_numbers/"+ i +".png");
+        }
         super.loadAssets();
     }
 

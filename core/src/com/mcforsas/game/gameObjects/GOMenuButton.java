@@ -56,11 +56,4 @@ public class GOMenuButton extends GameObject {
 
         super.touchUp(x, y);
     }
-
-    @Override
-    public void end() {
-        //DEBUG:
-        Utils.warn("ended button");
-        super.end();
-    }
 }

@@ -67,7 +67,6 @@ public class GOMeteor extends GameObject {
             if(Utils.isSpriteCollisionRectangle(sprite, car.getSprite())){
                 //TODO: add hit logic
                 //DEBUG:
-                Utils.warn("car was hit by a meteor!");
                 car.setControllable(false);
             }
 
