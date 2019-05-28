@@ -11,10 +11,7 @@ import com.mcforsas.game.engine.core.GameData;
 import com.mcforsas.game.engine.core.Level;
 import com.mcforsas.game.engine.core.Utils;
 import com.mcforsas.game.engine.handlers.FileHandler;
-import com.mcforsas.game.gameObjects.GOCar;
-import com.mcforsas.game.gameObjects.GOMenuButton;
-import com.mcforsas.game.gameObjects.GOMeteor;
-import com.mcforsas.game.gameObjects.MenuButtonListener;
+import com.mcforsas.game.gameObjects.*;
 
 /**
  * @author MCForsas @since 3/16/2019
@@ -32,6 +29,8 @@ public class LVLPlanet extends Level implements MenuButtonListener {
     private int gemSpawnChance = 5; //Percentage of chance, that a gem will spawn when meteor lands
 
     private GOCar car;
+    private GODigitRenderer digitRenderer;
+    private float fontSize = 1f;
 
     private int tick = 0;
     private int score = 0;
@@ -49,6 +48,12 @@ public class LVLPlanet extends Level implements MenuButtonListener {
 
         car = new GOCar(.5f,getWidth()/2,getHeigth()/2,50,this);
         addGameObject(car);
+
+        digitRenderer = new GODigitRenderer(score,width/2,10f);
+        digitRenderer.setWidth(.5f);
+        digitRenderer.setHeight(fontSize);
+
+        addGameObject(digitRenderer);
 
         super.start();
 
@@ -98,6 +103,14 @@ public class LVLPlanet extends Level implements MenuButtonListener {
             }
         }
 
+        digitRenderer.setX(Engine.getRenderHandler().getCamera().position.x);
+        digitRenderer.setY(
+                Engine.getRenderHandler().getCamera().position.y +
+                Engine.getRenderHandler().getCurrentViewport().getWorldHeight()/2 - fontSize*1.5f
+        );
+
+        digitRenderer.setX(digitRenderer.getX() - digitRenderer.getStringWidth()/2);
+
         tick++;
 
     }
@@ -126,7 +139,7 @@ public class LVLPlanet extends Level implements MenuButtonListener {
      * On gem collection increase the score
      */
     public void onGemCollected(){
-        this.score++;
+        setScore(getScore()+1);
     }
 
     @Override
@@ -143,5 +156,14 @@ public class LVLPlanet extends Level implements MenuButtonListener {
     public void save(FileHandler fileHandler, GameData gameData) {
         fileHandler.putPreferencesInt("gems",score);
         super.save(fileHandler, gameData);
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    private void setScore(int score) {
+        this.score = score;
+        digitRenderer.setNumber(score);
     }
 }

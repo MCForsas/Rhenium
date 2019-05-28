@@ -1,9 +1,11 @@
 package com.mcforsas.game.gameObjects;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.GameObject;
+import com.mcforsas.game.engine.core.Utils;
 
 import java.util.HashMap;
 
@@ -13,44 +15,49 @@ import java.util.HashMap;
  */
 public class GODigitRenderer extends GameObject {
     private int number; //Number to render;
-    private int numberLength = 0;
-    private float charScale = 0f;
+    private int numberLength;
 
-    private float height = 1f; //If it's 0, width will be used
-    private float width = 0;
+    private float height = 2f; //If it's 0, width will be used
+    private float width = 1f;
+    private float spacing = 0;
 
-    private final int TEXTURE_HEIGHT = 32; //Texture height in px
-    private final int TEXTURE_WIDTH = 16; //Texture width in px
-
-    private HashMap<Integer, Sprite> spriteHashMap;
+    private HashMap<String, Texture> textureHashMap = new HashMap<String, Texture>();
 
     public static final String TEXTURE_PREFIX = "sprDig";
 
-    public GODigitRenderer(int number) {
+    public GODigitRenderer(int number, float x, float y) {
+        this.x = x;
+        this.y = y;
         this.number = number;
         this.numberLength = String.valueOf(number).length();
 
         for(int i = 0; i < 10; i++){
-            spriteHashMap.put(i, new Sprite(GameLauncher.getAssetHandler().getTexture(TEXTURE_PREFIX + i)));
+            textureHashMap.put(String.valueOf(i), GameLauncher.getAssetHandler().getTexture(TEXTURE_PREFIX + i));
         }
+
+        setDepth(-10);
+
     }
 
     @Override
     public void render(SpriteBatch spriteBatch, float deltaTime) {
+        if(width == 0){
+            height = width*2f;
+        }
+        if(height == 0){
+            height = width*2f;
+        }
+
         for(int i = 0; i < numberLength; i++){
-            Sprite spr = spriteHashMap.get((int) String.valueOf(number).charAt(i));
-            spr.draw(spriteBatch);
+            spriteBatch.draw(
+                    textureHashMap.get(String.valueOf(String.valueOf(number).charAt(i))),
+                    x + (width+spacing)*i,
+                    y,
+                    width,
+                    height
+            );
         }
     }
-
-    private void refreshTextures(){
-        for(int i = 0; i < numberLength; i++){
-            Sprite spr = spriteHashMap.get((int) String.valueOf(number).charAt(i));
-            spr.setScale(charScale);
-            spr.setPosition(x + charScale*i, y);
-        }
-    }
-
     public int getNumber() {
         return number;
     }
@@ -65,10 +72,6 @@ public class GODigitRenderer extends GameObject {
 
     public void setHeight(float height) {
         this.height = height;
-        if(height > 0){
-            charScale = height/TEXTURE_HEIGHT;
-        }
-        refreshTextures();
     }
 
     public float getWidth() {
@@ -77,9 +80,26 @@ public class GODigitRenderer extends GameObject {
 
     public void setWidth(float width) {
         this.width = width;
-        if(width > 0){
-            charScale = width/TEXTURE_WIDTH;
-        }
-        refreshTextures();
+    }
+
+    public float getSpacing() {
+        return spacing;
+    }
+
+    public void setSpacing(float spacing) {
+        this.spacing = spacing;
+    }
+
+    /**
+     * Sets the width for whole string
+     * @param width
+     */
+    public void setStringWidth(float width){
+        this.width = width/numberLength;
+        this.height = this.width*2;
+    }
+
+    public float getStringWidth(){
+        return this.width * numberLength;
     }
 }

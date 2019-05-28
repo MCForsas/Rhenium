@@ -12,13 +12,13 @@ public class LVLMainMenu extends Level implements MenuButtonListener {
 
     private GOMenuButton menuButtonStart;
     private GOMenuButton menuButtonOptions;
-    private GODigitRenderer digitRenderer;
 
     @Override
     public void start() {
         setWidth(width/2f);
         setHeigth(heigth/2f);
         menuButtonStart = new GOMenuButton(MenuButtonTypes.START, this.width/2,this.heigth/3,this);
+
 
         addGameObject(menuButtonStart);
         super.start();
@@ -31,10 +31,5 @@ public class LVLMainMenu extends Level implements MenuButtonListener {
         if(menuButton.getType() == MenuButtonTypes.START){
             GameLauncher.getLevelHandler().nextLevel();
         }
-    }
-
-    @Override
-    public void touchDown(float x, float y) {
-        super.touchDown(x, y);
     }
 }
