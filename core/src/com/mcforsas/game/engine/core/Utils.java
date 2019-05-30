@@ -260,6 +260,10 @@ public final class Utils {
      * @return
      */
     public static boolean isSpriteCollisionRectangle(Sprite sprite1, Sprite sprite2){
+        //Update
+        sprite1.getBoundingRectangle();
+        sprite2.getBoundingRectangle();
+
         return (sprite1.getBoundingRectangle().overlaps(sprite2.getBoundingRectangle()));
     }
 

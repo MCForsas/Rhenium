@@ -28,7 +28,7 @@ public class GODigitRenderer extends GameObject {
     public GODigitRenderer(int number, float x, float y) {
         this.x = x;
         this.y = y;
-        this.number = number;
+        setNumber(number);
         this.numberLength = String.valueOf(number).length();
 
         for(int i = 0; i < 10; i++){
@@ -37,16 +37,22 @@ public class GODigitRenderer extends GameObject {
 
         setDepth(-10);
 
+        refreshDimensions();
+
     }
 
-    @Override
-    public void render(SpriteBatch spriteBatch, float deltaTime) {
+    private void refreshDimensions(){
         if(width == 0){
             width = height/2f;
         }
         if(height == 0){
             height = width*2f;
         }
+    }
+
+    @Override
+    public void render(SpriteBatch spriteBatch, float deltaTime) {
+        refreshDimensions();
 
         for(int i = 0; i < numberLength; i++){
             spriteBatch.draw(
@@ -73,6 +79,7 @@ public class GODigitRenderer extends GameObject {
 
     public void setHeight(float height) {
         this.height = height;
+        refreshDimensions();
     }
 
     public float getWidth() {
@@ -81,6 +88,7 @@ public class GODigitRenderer extends GameObject {
 
     public void setWidth(float width) {
         this.width = width;
+        refreshDimensions();
     }
 
     public float getSpacing() {
@@ -101,6 +109,6 @@ public class GODigitRenderer extends GameObject {
     }
 
     public float getStringWidth(){
-        return this.width * (numberLength + spacing);
+        return width * (numberLength + spacing);
     }
 }

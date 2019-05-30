@@ -23,7 +23,7 @@ public class GOCar extends GameObject {
     private float speedHorizontal = 0, speedVertical = 0;
 
     public GOCar(float size, float x, float y, float depth, Level level){
-        sprite = new Sprite(AssetHandler.getTexture("sprBadlogic"));
+        sprite = new Sprite(AssetHandler.getTexture("sprRover"));
 
         this.x = x;
         this.y = y;

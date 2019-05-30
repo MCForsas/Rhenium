@@ -55,10 +55,22 @@ public class GameLauncher extends Engine {
     protected void loadAssets() {
         assetHandler.addToQueue(Texture.class, "sprBadlogic", "badlogic.jpg");
         assetHandler.addToQueue(Texture.class, "sprExample", "example.jpg");
+
         assetHandler.addToQueue(Texture.class, "sprPlanet", "planet.png");
+        assetHandler.addToQueue(Texture.class, "sprMeteor", "meteor.png");
+        assetHandler.addToQueue(Texture.class, "sprRover", "rover.png");
+        assetHandler.addToQueue(Texture.class, "sprGem", "gem.png");
+        assetHandler.addToQueue(Texture.class, "sprCrater", "crater.png");
+        assetHandler.addToQueue(Texture.class, "sprStars","stars.png");
+
+        assetHandler.addToQueue(Texture.class, "sprButtonStart","button_start.png");
+        assetHandler.addToQueue(Texture.class, "sprButtonRestart","button_restart.png");
 
         assetHandler.addToQueue(Music.class, "musExample","example.ogg");
         assetHandler.addToQueue(Sound.class, "sndExample","test.wav");
+        assetHandler.addToQueue(Sound.class, "sndExplode","explode.mp3");
+        assetHandler.addToQueue(Sound.class, "sndGem","gem.mp3");
+        assetHandler.addToQueue(Sound.class, "sndGemPickup","gem_pickup.mp3");
 
         //assetHandler.addToQueue(BitmapFont.class,"fntDigits","digits.fnt");
 

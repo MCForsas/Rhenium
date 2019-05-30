@@ -13,39 +13,57 @@ import com.mcforsas.game.gameObjects.*;
  */
 public class LVLPlanet extends Level implements MenuButtonListener {
 
-    private float planetScale = 1.5f;
-    private float shrinkProgress = 0f; //How much the planet has shrunken
-    private float shrinkSpeed = .00005f;
+    private float planetScale;
+    private float shrinkProgress; //How much the planet has shrunken
+    private float shrinkSpeed;
 
-    private int meteorSpawnPeriod = 25; //What's the tick period between meteor spawning
-    private int difficultyLevel = 0;
-    private int difficultyIncreasePeriod = 300; //How often the difficulty increases
-    private int gemSpawnChance = 5; //Percentage of chance, that a gem will spawn when meteor lands
+    private int meteorSpawnPeriod; //What's the tick period between meteor spawning
+    private int difficultyLevel;
+    private int difficultyIncreasePeriod; //How often the difficulty increases
+    private int gemSpawnChance; //Percentage of chance, that a gem will spawn when meteor lands
 
     private GOCar car;
     private GODigitRenderer digitRenderer;
-    private float fontSize = 1f;
+    private float fontSize;
 
-    private int tick = 0;
+    private int tick;
 
-    private int score = 0;
+    private int score;
 
     private boolean gameOver;
 
     private GOMenuButton menuButtonRestart;
     private GOMenuButton menuButtonMainMenu;
+    private Sprite background;
 
     @Override
     public void start() {
         gameOver = false;
+        planetScale = 4f;
+        score = 0;
+        shrinkSpeed = .00005f;
+        meteorSpawnPeriod = 25;
+        difficultyLevel = 0;
+        difficultyIncreasePeriod = 300;
+        gemSpawnChance = 15;
+        fontSize = 1f;
+        tick = 0;
         setDepth(100);
 
+
+
         sprite = new Sprite(Engine.getAssetHandler().getTexture("sprPlanet"));
-        sprite.setSize(getWidth()*planetScale,getWidth()*planetScale);
+        background = new Sprite(Engine.getAssetHandler().getTexture("sprStars"));
+
+        sprite.setSize(Engine.getWorldWidth()*planetScale,Engine.getWorldWidth()*planetScale);
         sprite.setOriginCenter();
         sprite.setOriginBasedPosition(getWidth()/2,getHeigth()/2);
 
-        car = new GOCar(.5f,getWidth()/2,getHeigth()/2,50,this);
+        background.setSize(getHeigth(),getHeigth());
+        background.setOriginCenter();
+        background.setRotation((Float) Utils.choose(0f,90f,180f,270f));
+
+        car = new GOCar(.7f,getWidth()/2,getHeigth()/2,50,this);
         addGameObject(car);
 
         digitRenderer = new GODigitRenderer(score,width/2,10f);
@@ -110,6 +128,7 @@ public class LVLPlanet extends Level implements MenuButtonListener {
         );
 
         digitRenderer.setX(digitRenderer.getX() - digitRenderer.getStringWidth()/2);
+        background.setOriginBasedPosition(Engine.getRenderHandler().getCamera().position.x,Engine.getRenderHandler().getCamera().position.y);
 
         tick++;
 
@@ -118,6 +137,7 @@ public class LVLPlanet extends Level implements MenuButtonListener {
 
     @Override
     public void render(SpriteBatch spriteBatch, float deltaTime) {
+        background.draw(spriteBatch);
         super.render(spriteBatch, deltaTime);
     }
 
@@ -138,6 +158,7 @@ public class LVLPlanet extends Level implements MenuButtonListener {
      */
     public void onGemCollected(){
         if(!gameOver)
+            GameLauncher.getAssetHandler().getSound("sndGemPickup").play();
             setScore(getScore()+1);
     }
 
@@ -161,7 +182,8 @@ public class LVLPlanet extends Level implements MenuButtonListener {
 
     @Override
     public void save(FileHandler fileHandler, GameData gameData) {
-        fileHandler.putPreferencesInt("gems",score);
+        int currentScore = (Integer) GameLauncher.getFileHandler().getPreferences("gems",Integer.class,0);
+        fileHandler.putPreferencesInt("gems",currentScore + score);
         super.save(fileHandler, gameData);
     }
 
@@ -197,7 +219,9 @@ public class LVLPlanet extends Level implements MenuButtonListener {
 
             addGameObject(menuButtonRestart);
             addGameObject(menuButtonMainMenu);
+            GameLauncher.getAssetHandler().getSound("sndExplode").play();
         }
+
 
         this.gameOver = gameOver;
     }

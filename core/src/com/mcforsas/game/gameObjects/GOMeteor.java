@@ -1,6 +1,7 @@
 package com.mcforsas.game.gameObjects;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.*;
 import com.mcforsas.game.engine.handlers.AssetHandler;
 import com.mcforsas.game.levels.LVLPlanet;
@@ -22,9 +23,10 @@ public class GOMeteor extends GameObject {
     private int tick;
     private boolean onGround = false; //If it has already hit the ground
 
+    private float rotationSpeed = Utils.irandomRange(30,30)/10 - 3f;
+
     public GOMeteor(float depth, LVLPlanet LVLPlanet, GOCar car){
         this.LVLPlanet = LVLPlanet;
-
         this.car = car;
 
         setDepth(depth);
@@ -32,7 +34,7 @@ public class GOMeteor extends GameObject {
 
     @Override
     public void start() {
-        sprite = new Sprite(AssetHandler.getTexture("sprExample"));
+        sprite = new Sprite(AssetHandler.getTexture("sprMeteor"));
 
         float spawnPlace = Utils.irandom(360); //Where it spawns on circle around car object
 
@@ -52,12 +54,12 @@ public class GOMeteor extends GameObject {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-
         if(onGround) {
             //If meter hit the ground, and is there for 400 tics, destroy it
             if(tick >= size*400){
                 if(Utils.chance(LVLPlanet.getGemSpawnChance())){
                     LVLPlanet.addGameObject(new GOGem(x,y,this.depth, LVLPlanet,car));
+                    GameLauncher.getAssetHandler().getSound("sndGem").play();
                 }
                 end();
             }
@@ -78,11 +80,13 @@ public class GOMeteor extends GameObject {
             this.x += (float) Math.cos(Math.toRadians(direction)) * speed;
             this.y += (float) Math.sin(Math.toRadians(direction)) * speed;
 
+            sprite.setRotation(sprite.getRotation() + rotationSpeed);
+
             //Ground the meteor if it's near the car and is not outside the planet
             if(Utils.distanceBetweenPoints(x,y,car.getX(), car.getY()) <= explodeDistance
                     && Utils.distanceBetweenPoints(x,y,level.getWidth()/2,level.getHeigth()/2)
                     <= LVLPlanet.getPlanetDiameter()/2){
-                onGround = true;
+                setOnGround(true);
             }
         }
 
@@ -92,5 +96,14 @@ public class GOMeteor extends GameObject {
         if(Utils.distanceBetweenPoints(x,y,level.getWidth()/2,level.getHeigth()/2) >= spawnDistance*2){
             end();
         }
+    }
+
+    public boolean isOnGround() {
+        return onGround;
+    }
+
+    public void setOnGround(boolean onGround) {
+        this.onGround = onGround;
+        sprite.setTexture(AssetHandler.getTexture("sprCrater"));
     }
 }

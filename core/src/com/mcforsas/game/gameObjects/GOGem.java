@@ -16,7 +16,7 @@ public class GOGem extends GameObject {
     private LVLPlanet LVLPlanet;
 
     public GOGem(float x, float y, float depth, LVLPlanet level, GOCar car){
-        sprite = new Sprite(AssetHandler.getTexture("sprBadlogic"));
+        sprite = new Sprite(AssetHandler.getTexture("sprGem"));
 
         this.x = x;
         this.y = y;
