@@ -12,7 +12,7 @@ public abstract class Entitie implements InputListener {
      * All assets and values should be set here for this to function correctly.
      */
     public void start(){
-        GameLauncher.getInputHandler().addInputListener(this);
+
     }
 
     /**
@@ -26,9 +26,6 @@ public abstract class Entitie implements InputListener {
      * End all game logic. Remove all dependencies.
      */
     public void end(){
-        //DEBUG:
-        //Utils.warn("Ended object: " + getClass().getSimpleName());
-
         try {
             GameLauncher.getInputHandler().removeInputListener(this);
         }catch (NullPointerException e){

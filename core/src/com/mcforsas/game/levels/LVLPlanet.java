@@ -1,15 +1,9 @@
 package com.mcforsas.game.levels;
 
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.GameLauncher;
-import com.mcforsas.game.engine.core.Engine;
-import com.mcforsas.game.engine.core.GameData;
-import com.mcforsas.game.engine.core.Level;
-import com.mcforsas.game.engine.core.Utils;
+import com.mcforsas.game.engine.core.*;
 import com.mcforsas.game.engine.handlers.FileHandler;
 import com.mcforsas.game.gameObjects.*;
 
@@ -33,12 +27,17 @@ public class LVLPlanet extends Level implements MenuButtonListener {
     private float fontSize = 1f;
 
     private int tick = 0;
+
     private int score = 0;
 
-    private boolean gameOver = false;
+    private boolean gameOver;
+
+    private GOMenuButton menuButtonRestart;
+    private GOMenuButton menuButtonMainMenu;
 
     @Override
     public void start() {
+        gameOver = false;
         setDepth(100);
 
         sprite = new Sprite(Engine.getAssetHandler().getTexture("sprPlanet"));
@@ -50,10 +49,11 @@ public class LVLPlanet extends Level implements MenuButtonListener {
         addGameObject(car);
 
         digitRenderer = new GODigitRenderer(score,width/2,10f);
-        digitRenderer.setWidth(.5f);
         digitRenderer.setHeight(fontSize);
+        digitRenderer.setSpacing(1f);
 
         addGameObject(digitRenderer);
+
 
         super.start();
 
@@ -61,7 +61,14 @@ public class LVLPlanet extends Level implements MenuButtonListener {
 
     @Override
     public void update(float deltaTime) {
-        super.update(deltaTime);
+
+        if(gameOver){
+            menuButtonRestart.setX(Engine.getRenderHandler().getCamera().position.x);
+            menuButtonRestart.setY(Engine.getRenderHandler().getCamera().position.y + 3f);
+            menuButtonMainMenu.setX(Engine.getRenderHandler().getCamera().position.x);
+            menuButtonMainMenu.setY(Engine.getRenderHandler().getCamera().position.y - 3f);
+        }
+
 
         //Shrink the planet until it's just little enough to drive on
         if(shrinkProgress < .7f) {
@@ -79,7 +86,7 @@ public class LVLPlanet extends Level implements MenuButtonListener {
 
         //Check if car is outside of planet:
         if(Utils.distanceBetweenPoints(car.getX(), car.getY(), getWidth()/2, getHeigth()/2) >= getPlanetDiameter()/2){
-            car.setControllable(false);
+            setGameOver(true);
         }
 
         //Spawn meteors
@@ -95,32 +102,23 @@ public class LVLPlanet extends Level implements MenuButtonListener {
             difficultyLevel++;
         }
 
-        //TODO: change to normal variable
-        if(!car.isControllable()){
-            if(!gameOver){
-                save(GameLauncher.getFileHandler(), GameLauncher.getGameData());
-                gameOver = true;
-            }
-        }
-
+        //Set digit renderer position
         digitRenderer.setX(Engine.getRenderHandler().getCamera().position.x);
         digitRenderer.setY(
                 Engine.getRenderHandler().getCamera().position.y +
-                Engine.getRenderHandler().getCurrentViewport().getWorldHeight()/2 - fontSize*1.5f
+                Engine.getRenderHandler().getViewport().getWorldHeight()/2 - fontSize*1.5f
         );
 
         digitRenderer.setX(digitRenderer.getX() - digitRenderer.getStringWidth()/2);
 
         tick++;
 
+        super.update(deltaTime);
     }
 
     @Override
     public void render(SpriteBatch spriteBatch, float deltaTime) {
         super.render(spriteBatch, deltaTime);
-        if(gameOver){
-
-        }
     }
 
     /**
@@ -139,7 +137,8 @@ public class LVLPlanet extends Level implements MenuButtonListener {
      * On gem collection increase the score
      */
     public void onGemCollected(){
-        setScore(getScore()+1);
+        if(!gameOver)
+            setScore(getScore()+1);
     }
 
     @Override
@@ -149,7 +148,15 @@ public class LVLPlanet extends Level implements MenuButtonListener {
 
     @Override
     public void onClick(GOMenuButton menuButton) {
-        GameLauncher.getLevelHandler().previousLevel();
+        switch (menuButton.getType()){
+            case MAIN_MENU:
+                end();
+                GameLauncher.getLevelHandler().previousLevel();
+                break;
+            case RESTART:
+                GameLauncher.getLevelHandler().restartLevel();
+            default:
+        }
     }
 
     @Override
@@ -165,5 +172,38 @@ public class LVLPlanet extends Level implements MenuButtonListener {
     private void setScore(int score) {
         this.score = score;
         digitRenderer.setNumber(score);
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        //Save the score if it's not gameOver yet.
+        if(gameOver == true && this.gameOver == false){
+            save(GameLauncher.getFileHandler(), GameLauncher.getGameData());
+            car.setControllable(false);
+            menuButtonRestart = new GOMenuButton(MenuButtonTypes.RESTART,
+                    Engine.getRenderHandler().getCamera().position.x,
+                    Engine.getRenderHandler().getCamera().position.y + 3f,
+                    this
+            );
+
+            menuButtonMainMenu = new GOMenuButton(MenuButtonTypes.MAIN_MENU,
+                    Engine.getRenderHandler().getCamera().position.x,
+                    Engine.getRenderHandler().getCamera().position.y - 3f,
+                    this
+            );
+
+            addGameObject(menuButtonRestart);
+            addGameObject(menuButtonMainMenu);
+        }
+
+        this.gameOver = gameOver;
+    }
+
+    @Override
+    public void end() {
+        super.end();
     }
 }

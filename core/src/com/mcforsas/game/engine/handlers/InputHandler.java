@@ -7,6 +7,7 @@ import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.InputListener;
 
+import java.util.HashSet;
 import java.util.Vector;
 
 /**

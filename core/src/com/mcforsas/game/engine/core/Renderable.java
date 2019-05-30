@@ -19,8 +19,10 @@ public abstract class Renderable extends Entitie {
 
     @Override
     public void start() {
-        Engine.getRenderHandler().addRenderable(this);
         isRendered = true;
+        Engine.getRenderHandler().addRenderable(this);
+
+        //DEBUG:
         super.start();
     }
 

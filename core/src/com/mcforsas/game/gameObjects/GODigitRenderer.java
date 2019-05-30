@@ -17,8 +17,8 @@ public class GODigitRenderer extends GameObject {
     private int number; //Number to render;
     private int numberLength;
 
-    private float height = 2f; //If it's 0, width will be used
-    private float width = 1f;
+    private float height = 0f; //If it's 0, width will be used
+    private float width = 0f;
     private float spacing = 0;
 
     private HashMap<String, Texture> textureHashMap = new HashMap<String, Texture>();
@@ -42,7 +42,7 @@ public class GODigitRenderer extends GameObject {
     @Override
     public void render(SpriteBatch spriteBatch, float deltaTime) {
         if(width == 0){
-            height = width*2f;
+            width = height/2f;
         }
         if(height == 0){
             height = width*2f;
@@ -64,6 +64,7 @@ public class GODigitRenderer extends GameObject {
 
     public void setNumber(int number) {
         this.number = number;
+        this.numberLength = String.valueOf(number).length();
     }
 
     public float getHeight() {
@@ -100,6 +101,6 @@ public class GODigitRenderer extends GameObject {
     }
 
     public float getStringWidth(){
-        return this.width * numberLength;
+        return this.width * (numberLength + spacing);
     }
 }

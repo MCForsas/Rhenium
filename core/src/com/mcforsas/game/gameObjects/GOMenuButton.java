@@ -1,7 +1,10 @@
 package com.mcforsas.game.gameObjects;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.GameLauncher;
+import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.GameObject;
 import com.mcforsas.game.engine.core.Utils;
 
@@ -11,7 +14,6 @@ import com.mcforsas.game.engine.core.Utils;
  */
 public class GOMenuButton extends GameObject {
     private MenuButtonTypes type;
-    private float x, y;
     private MenuButtonListener listener;
 
     public GOMenuButton(MenuButtonTypes type, float x, float y, MenuButtonListener listener) {
@@ -25,18 +27,42 @@ public class GOMenuButton extends GameObject {
 
     @Override
     public void start() {
+        setDepth(-10);
         switch (type) {
+            //TODO: replace with normal sprites
             case START:
                 this.sprite = new Sprite(GameLauncher.getAssetHandler().getTexture("sprBadlogic"));
                 this.sprite.setSize(3f,3f);
                 this.sprite.setOriginCenter();
-                this.sprite.setOriginBasedPosition(0,0);
+                this.sprite.setOriginBasedPosition(x,y);
                 break;
-            case PAUSE:
+            case RESTART:
+                this.sprite = new Sprite(GameLauncher.getAssetHandler().getTexture("sprExample"));
+                this.sprite.setSize(3f,3f);
+                this.sprite.setOriginCenter();
+                this.sprite.setOriginBasedPosition(x,y);
+                break;
+            case MAIN_MENU:
+                this.sprite = new Sprite(GameLauncher.getAssetHandler().getTexture("sprPlanet"));
+                this.sprite.setSize(3f,3f);
+                this.sprite.setOriginCenter();
+                this.sprite.setOriginBasedPosition(x,y);
                 break;
         }
 
         super.start();
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        sprite.setOriginBasedPosition(x,y);
+        super.update(deltaTime);
+    }
+
+    @Override
+    public void render(SpriteBatch spriteBatch, float deltaTime) {
+        super.render(spriteBatch, deltaTime);
+
     }
 
     public MenuButtonTypes getType() {
@@ -54,6 +80,13 @@ public class GOMenuButton extends GameObject {
             listener.onClick(this);
         }
 
+
+
         super.touchUp(x, y);
+    }
+
+    @Override
+    public void end() {
+        super.end();
     }
 }

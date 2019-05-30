@@ -2,14 +2,11 @@ package com.mcforsas.game.engine.handlers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mcforsas.game.GameLauncher;
-import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.Level;
 import com.mcforsas.game.engine.core.Renderable;
 import com.mcforsas.game.engine.core.Utils;
@@ -46,10 +43,10 @@ public class RenderHandler {
 
     public void setup(Camera camera, Viewport viewport){
         addCemera(camera);
-        setCurrentCamera(camera);
+        setCamera(camera);
 
         addViewport(viewport);
-        setCurrentViewport(viewport);
+        setViewport(viewport);
     }
 
     /**
@@ -245,20 +242,12 @@ public class RenderHandler {
         isCameraBounded = cameraBounded;
     }
 
-    public Viewport getCurrentViewport() {
+    public Viewport getViewport() {
         return currentViewport;
     }
 
-    public void setCurrentViewport(Viewport viewport) {
+    public void setViewport(Viewport viewport) {
         this.currentViewport = viewport;
-    }
-
-    public Camera getCurrentCamera() {
-        return currentCamera;
-    }
-
-    public void setCurrentCamera(Camera currentCamera) {
-        this.currentCamera = currentCamera;
     }
 
     public float getMaxAspectDeviation() {

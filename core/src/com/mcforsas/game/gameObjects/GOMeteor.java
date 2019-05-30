@@ -50,7 +50,6 @@ public class GOMeteor extends GameObject {
 
     @Override
     public void update(float deltaTime) {
-
         super.update(deltaTime);
 
 
@@ -63,11 +62,9 @@ public class GOMeteor extends GameObject {
                 end();
             }
 
-            //If it colides with
+            //If it colides with car
             if(Utils.isSpriteCollisionRectangle(sprite, car.getSprite())){
-                //TODO: add hit logic
-                //DEBUG:
-                car.setControllable(false);
+                LVLPlanet.setGameOver(true);
             }
 
             //If the meteor get's outside the planet, destroy it

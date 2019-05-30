@@ -42,13 +42,12 @@ public abstract class Level extends Renderable{
 
 
     public void end(){
-        for(int i = 0; i < gameObjects.size(); i++){
+        for(int i =  gameObjects.size() - 1; i >= 0; i--){
             gameObjects.get(i).end();
         }
 
         gameObjects.clear();
         super.end();
-
         isStarted = false;
         isRendered = false;
     }

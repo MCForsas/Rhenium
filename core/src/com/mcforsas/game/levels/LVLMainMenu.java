@@ -1,6 +1,7 @@
 package com.mcforsas.game.levels;
 
 import com.mcforsas.game.GameLauncher;
+import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.Level;
 import com.mcforsas.game.gameObjects.*;
 
@@ -17,10 +18,12 @@ public class LVLMainMenu extends Level implements MenuButtonListener {
     public void start() {
         setWidth(width/2f);
         setHeigth(heigth/2f);
-        menuButtonStart = new GOMenuButton(MenuButtonTypes.START, this.width/2,this.heigth/3,this);
-
+        menuButtonStart = new GOMenuButton(MenuButtonTypes.START, 0,0,this);
 
         addGameObject(menuButtonStart);
+
+        Engine.getRenderHandler().setCameraPosition(0,0);
+
         super.start();
     }
 

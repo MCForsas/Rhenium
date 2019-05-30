@@ -7,5 +7,7 @@ package com.mcforsas.game.gameObjects;
 public enum MenuButtonTypes {
     START,
     PAUSE,
-    GAME_OVERgit 
+    RESTART,
+    MAIN_MENU,
+    SHOP
 }

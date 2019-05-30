@@ -14,6 +14,8 @@ public abstract class GameObject extends Renderable{
         super.update();
     }
 
+
+
     /**
      * Called on game save. Object should save all of it's details for later use;
      * @param fileHandler
@@ -27,7 +29,11 @@ public abstract class GameObject extends Renderable{
         return level;
     }
 
-
+    @Override
+    public void end() {
+        level.removeGameObject(this);
+        super.end();
+    }
 
     public void setLevel(Level level) {
         this.level = level;

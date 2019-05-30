@@ -1,11 +1,9 @@
 package com.mcforsas.game.engine.handlers;
 
 import com.mcforsas.game.GameLauncher;
-import com.mcforsas.game.engine.core.Engine;
-import com.mcforsas.game.engine.core.GameData;
-import com.mcforsas.game.engine.core.Level;
-import com.mcforsas.game.engine.core.Renderable;
+import com.mcforsas.game.engine.core.*;
 
+import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Vector;
 
@@ -129,7 +127,7 @@ public class LevelHandler extends Renderable {
     }
 
     public void removeLevel(Level level) {
-        level.end();
+        //level.end();
         levels.remove(level);
     }
 
@@ -150,6 +148,7 @@ public class LevelHandler extends Renderable {
     public void setCurrentLevel(Level level) throws NullPointerException{
         this.currentLevel = level;
 
+        //DEBUG:
         if(level == null)
             throw new NullPointerException();
         if(!level.isStarted()){
