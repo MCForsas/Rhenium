@@ -1,7 +1,7 @@
 package com.mcforsas.game.gameObjects;
-
-import com.badlogic.gdx.Game;
+import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.GameObject;
+import com.mcforsas.game.engine.core.Utils;
 
 import java.util.Vector;
 
@@ -14,7 +14,16 @@ public class GOSkinShop extends GameObject {
 
     @Override
     public void start() {
+
         skins = new Vector<GOSkin>();
+
+        for(int i = 0; i < 10; i++) {
+            GOSkin skin = new GOSkin(this,i,false,0,0);
+            skins.add(skin);
+            level.addGameObject(skin);
+        }
+
+        skins.get(0).setSelectable(true);
         super.start();
     }
 

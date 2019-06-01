@@ -1,11 +1,9 @@
 package com.mcforsas.game.gameObjects;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.GameObject;
-import com.mcforsas.game.engine.core.Utils;
 
 import java.util.HashMap;
 
@@ -29,6 +27,12 @@ public class GODigitRenderer extends GameObject {
         this.x = x;
         this.y = y;
         setNumber(number);
+
+
+    }
+
+    @Override
+    public void start() {
         this.numberLength = String.valueOf(number).length();
 
         for(int i = 0; i < 10; i++){
@@ -38,7 +42,7 @@ public class GODigitRenderer extends GameObject {
         setDepth(-10);
 
         refreshDimensions();
-
+        super.start();
     }
 
     private void refreshDimensions(){

@@ -11,24 +11,33 @@ import com.mcforsas.game.engine.core.GameData;
 
 /**
  * @author MCForsas @since 3/25/2019
- * Reads and writes from files using JSON.
+ * Reads and writes from files. Handles preferences and gameData JSON.
  */
 public class FileHandler {
-    public final String FILE_PATH = "files/";
+    public static final String FILE_PATH = "files/";
     public final String PREFERENCES_NAME = "rheniumPreferences";
 
     private FileHandle fileHandle;
     private Preferences preferences;
-    private String fileName;
     private Json json;
     private boolean isEncoded;
 
+    //region <File handling>
+    public static FileHandle openFile(String fileName){
+        return Gdx.files.local(FILE_PATH + fileName);
+    }
+
+    public static String readFileString(String fileName){
+        return Gdx.files.local(FILE_PATH + fileName).readString();
+    }
+    //endregion
+
+    //region <Game data>
     /**
      * Opens file. If encode, encodes/decodes file data
      * @param isEncoded wheather information is encoded or not.
      */
     public FileHandler(String fileName, boolean isEncoded){
-        this.fileName = fileName;
         this.isEncoded = isEncoded;
 
         this.fileHandle = Gdx.files.local(FILE_PATH + fileName);
@@ -41,7 +50,7 @@ public class FileHandler {
      * Saves gameData object to json file.
      * @param gameData
      */
-    public void save(GameData gameData){
+    public void saveGameData(GameData gameData){
         String writeString = json.prettyPrint(gameData);
         if(isEncoded){
             writeString = Base64Coder.encodeString(writeString);
@@ -59,7 +68,7 @@ public class FileHandler {
      * Loads game data from file or null if none was saved
      * @return gameData loaded data
      */
-    public GameData load(){
+    public GameData loadGameData(){
         GameData data = null;
         String readString = "";
 
@@ -89,10 +98,7 @@ public class FileHandler {
 
         return data;
     }
-
-    public void dispose(){
-        preferences.flush();
-    }
+    //endregion
 
     //region <Preferences>
 
@@ -180,5 +186,13 @@ public class FileHandler {
     public Long getPrefrencesLong(String key) {
         return preferences.getLong(key);
     }
+
+    public void savePreferences(){
+        preferences.flush();
+    }
     //endregion
+
+    public void dispose(){
+        savePreferences();
+    }
 }

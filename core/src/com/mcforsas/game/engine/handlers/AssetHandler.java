@@ -87,9 +87,9 @@ public class AssetHandler {
 
     /**
      * Loads any supported asset
-     * @param type of asset to load
+     * @param type of asset to loadGameData
      * @param name to use when referencing in code
-     * @param filePath to load from. Note: asset directories are applied automatically
+     * @param filePath to loadGameData from. Note: asset directories are applied automatically
      * @throws UnknownAssetTypeException if asset type is not supported.
      */
     public void loadAsset(Class type, String name, String filePath) throws UnknownAssetTypeException {
@@ -104,7 +104,7 @@ public class AssetHandler {
         }else if (type == BitmapFont.class) {
             loadFont(name, filePath);
         }else {
-            throw new UnknownAssetTypeException("Tried to load an asset which class is not the one listed in asset types");
+            throw new UnknownAssetTypeException("Tried to loadGameData an asset which class is not the one listed in asset types");
         }
     }
     //endregion
