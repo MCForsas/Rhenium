@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.Level;
-import com.mcforsas.game.engine.core.Utils;
 import com.mcforsas.game.engine.handlers.AssetHandler;
 import com.mcforsas.game.gameObjects.*;
 
@@ -21,8 +20,8 @@ public class LVLMainMenu extends Level implements MenuButtonListener {
 
     @Override
     public void start() {
-        setWidth(width/2f);
-        setHeigth(heigth/2f);
+        setWidth(Engine.getWorldWidth()/2f);
+        setHeigth(Engine.getWorldHeight()/2f);
 
         menuButtonStart = new GOMenuButton(MenuButtonTypes.START, 0,0,this);
         digitRenderer = new GODigitRenderer((Integer) GameLauncher.getFileHandler().getPreferences("gems",Integer.class,0),0,4.5f);

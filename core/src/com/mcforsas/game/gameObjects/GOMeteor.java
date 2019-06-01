@@ -59,7 +59,9 @@ public class GOMeteor extends GameObject {
             if(tick >= size*400){
                 if(Utils.chance(LVLPlanet.getGemSpawnChance())){
                     LVLPlanet.addGameObject(new GOGem(x,y,this.depth, LVLPlanet,car));
-                    GameLauncher.getAssetHandler().getSound("sndGem").play();
+                    if(Utils.distanceBetweenPoints(x,y,car.getX(), car.getY()) <= explodeDistance){
+                        GameLauncher.getAssetHandler().getSound("sndGem").play();
+                    }
                 }
                 end();
             }
