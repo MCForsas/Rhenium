@@ -29,6 +29,7 @@ public class LVLShop extends Level {
         sprite.setOriginBasedPosition(0f,0f);
 
         GameLauncher.getRenderHandler().setCameraPosition(0,0);
+        setDepth(100);
         super.start();
     }
 

@@ -10,6 +10,7 @@ import com.mcforsas.game.engine.handlers.CameraHandler;
 import com.mcforsas.game.engine.handlers.FileHandler;
 import com.mcforsas.game.gameObjects.GODigitRenderer;
 import com.mcforsas.game.gameObjects.GOSkin;
+import com.mcforsas.game.gameObjects.GOSkinShop;
 import com.mcforsas.game.levels.LVLMainMenu;
 import com.mcforsas.game.levels.LVLPlanet;
 import com.mcforsas.game.levels.LVLShop;
@@ -81,7 +82,7 @@ public class GameLauncher extends Engine {
 
         //load skin textures
 
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < GOSkinShop.SKIN_AMOUNT; i++){
             //TODO: set to skin dir
             assetHandler.addToQueue(Texture.class, GOSkin.SKIN_PREFIX + i, "rover.png");
         }

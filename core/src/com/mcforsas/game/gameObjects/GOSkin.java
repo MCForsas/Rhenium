@@ -20,9 +20,9 @@ public class GOSkin extends GameObject {
     private int index;
     private boolean isUnlocked;
     public static final String SKIN_PREFIX = "sprSkin";
-    private final float skinDimensions = 3f;
+    public static final float skinDimensions = 3f;
     //private ShaderProgram shaderProgram;
-    private boolean isSelectable; //If the obect is in the shop
+    private boolean isSelected; //If the obect is selected
     private Texture lockedTexture;
     private Texture unlockedTexture;
 
@@ -37,17 +37,13 @@ public class GOSkin extends GameObject {
         this.sprite = new Sprite(
           GameLauncher.getAssetHandler().getTexture(SKIN_PREFIX + index)
         );
+
         unlockedTexture = sprite.getTexture();
-        lockedTexture = GameLauncher.getAssetHandler().getTexture("sprBadlogic");
+        lockedTexture = GameLauncher.getAssetHandler().getTexture("sprPlanet");
 
         sprite.setSize(skinDimensions,skinDimensions);
         sprite.setOriginCenter();
         sprite.setOriginBasedPosition(x,y);
-
-//        if(!isUnlocked){
-//            String shaderVertex = FileHandler.readFileString("shaders/shader_allBlack_vertex.glsl");
-//            String shaderFragment =  FileHandler.readFileString("shaders/shader_allBlack_fragment.glsl");
-//        }
 
         Engine.getInputHandler().addInputListener(this);
         setDepth(-10);
@@ -57,7 +53,12 @@ public class GOSkin extends GameObject {
     @Override
     public void render(SpriteBatch spriteBatch, float deltaTime) {
         super.render(spriteBatch, deltaTime);
-        spriteBatch.setShader(null);
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        sprite.setOriginBasedPosition(x,y);
+        super.update(deltaTime);
     }
 
     @Override
@@ -70,12 +71,12 @@ public class GOSkin extends GameObject {
         super.touchUp(x, y);
     }
 
-    public boolean isSelectable() {
-        return isSelectable;
+    public boolean isSelected() {
+        return isSelected;
     }
 
-    public void setSelectable(boolean selectable) {
-        isSelectable = selectable;
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     public boolean isUnlocked() {
