@@ -133,17 +133,19 @@ public class FileHandler {
      */
     public Object getPreferences(String key, Class type, Object defaultValue){
         Object data = null;
+
         if(type == String.class){
-            data =  getPrefrencesString(key);
+            data =  getPreferencesString(key);
         }else if(type == Boolean.class){
-            data = getPrefrencesBoolean(key);
+            data = getPreferencesBoolean(key);
         }else if(type == Integer.class){
             data = getPreferencesInt(key);
         }else if(type == Float.class){
-            data = getPrefrencesFloat(key);
+            data = getPreferencesFloat(key);
         }else if(type == Long.class){
-            data = getPrefrencesLong(key);
+            data = getPreferencesLong(key);
         }
+
         return (data != null ? data : defaultValue);
     }
 
@@ -151,7 +153,7 @@ public class FileHandler {
         preferences.putString(key, value);
     }
 
-    public String getPrefrencesString(String key) {
+    public String getPreferencesString(String key) {
         return preferences.getString(key);
     }
 
@@ -167,7 +169,7 @@ public class FileHandler {
         preferences.putBoolean(key, value);
     }
 
-    public boolean getPrefrencesBoolean(String key) {
+    public boolean getPreferencesBoolean(String key) {
         return preferences.getBoolean(key);
     }
 
@@ -175,7 +177,7 @@ public class FileHandler {
         preferences.putFloat(key, value);
     }
 
-    public Float getPrefrencesFloat(String key) {
+    public Float getPreferencesFloat(String key) {
         return preferences.getFloat(key);
     }
 
@@ -183,7 +185,7 @@ public class FileHandler {
         preferences.putLong(key, value);
     }
 
-    public Long getPrefrencesLong(String key) {
+    public Long getPreferencesLong(String key) {
         return preferences.getLong(key);
     }
 

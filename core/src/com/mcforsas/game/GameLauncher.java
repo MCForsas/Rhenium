@@ -21,6 +21,9 @@ import com.mcforsas.game.levels.LVLShop;
  */
 public class GameLauncher extends Engine {
     private float maxAspectDeviation = .2f;
+    public static int BALANCE;
+    public static int SKIN_SELECTED;
+
     //Config here
     public GameLauncher() {
         FPS = 120;
@@ -44,6 +47,8 @@ public class GameLauncher extends Engine {
         fileHandler = new FileHandler("save.sav",false);
         gameData = fileHandler.loadGameData();
 
+        BALANCE = fileHandler.getPreferencesInt("gems");
+        SKIN_SELECTED = (Integer) fileHandler.getPreferences("skinSelected",Integer.class,0);
     }
 
     @Override

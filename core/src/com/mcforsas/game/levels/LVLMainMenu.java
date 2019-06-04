@@ -24,7 +24,7 @@ public class LVLMainMenu extends Level implements MenuButtonListener {
         setHeigth(Engine.getWorldHeight()/2f);
 
         menuButtonStart = new GOMenuButton(MenuButtonTypes.START, 0,0,this);
-        digitRenderer = new GODigitRenderer((Integer) GameLauncher.getFileHandler().getPreferences("gems",Integer.class,0),0,4.5f);
+        digitRenderer = new GODigitRenderer(GameLauncher.BALANCE,0,4.5f);
         digitRenderer.setHeight(2f);
         digitRenderer.setX(digitRenderer.getX() - digitRenderer.getStringWidth()/2f);
         digitRenderer.setSpacing(.2f);

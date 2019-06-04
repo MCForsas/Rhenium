@@ -13,7 +13,7 @@ import com.mcforsas.game.levels.LVLPlanet;
 public class GOMeteor extends GameObject {
 
     private LVLPlanet LVLPlanet;
-    private float size = Utils.irandomRange(1,5)/10f; //How big the meteor is
+    private float size = Utils.irandomRange(3,6)/10f; //How big the meteor is
     private float speed = Utils.irandomRange(1,20)/100f; //How fast it moves
     private GOCar car;
     private float direction; //Which direction 0 - 360 it's heading to

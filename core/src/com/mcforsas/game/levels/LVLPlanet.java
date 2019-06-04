@@ -26,9 +26,9 @@ public class LVLPlanet extends Level implements MenuButtonListener {
     private GODigitRenderer digitRenderer;
     private float fontSize;
 
-    private int tick;
+    private float carSize;
 
-    private int score;
+    private int tick;
 
     private boolean gameOver;
 
@@ -40,14 +40,14 @@ public class LVLPlanet extends Level implements MenuButtonListener {
     public void start() {
         gameOver = false;
         planetScale = 4f;
-        score = 0;
         shrinkSpeed = .00005f;
         meteorSpawnPeriod = 25;
         difficultyLevel = 0;
         difficultyIncreasePeriod = 300;
-        gemSpawnChance = 15;
+        gemSpawnChance = 30;
         fontSize = 1f;
         tick = 0;
+        carSize = 1f;
         setDepth(100);
 
 
@@ -63,12 +63,12 @@ public class LVLPlanet extends Level implements MenuButtonListener {
         background.setOriginCenter();
         background.setRotation((Float) Utils.choose(0f,90f,180f,270f));
 
-        car = new GOCar(.7f,getWidth()/2,getHeigth()/2,50,this);
+        car = new GOCar(carSize,getWidth()/2,getHeigth()/2,50,this);
         addGameObject(car);
 
-        digitRenderer = new GODigitRenderer(score,width/2,10f);
+        digitRenderer = new GODigitRenderer(GameLauncher.BALANCE,width/2,10f);
         digitRenderer.setHeight(fontSize);
-        digitRenderer.setSpacing(1f);
+        digitRenderer.setSpacing(.2f);
 
         addGameObject(digitRenderer);
 
@@ -164,6 +164,7 @@ public class LVLPlanet extends Level implements MenuButtonListener {
 
     @Override
     public void dispose() {
+        end();
         super.dispose();
     }
 
@@ -182,17 +183,16 @@ public class LVLPlanet extends Level implements MenuButtonListener {
 
     @Override
     public void save(FileHandler fileHandler, GameData gameData) {
-        int currentScore = (Integer) GameLauncher.getFileHandler().getPreferences("gems",Integer.class,0);
-        fileHandler.putPreferencesInt("gems",currentScore + score);
+        fileHandler.putPreferencesInt("gems",GameLauncher.BALANCE);
         super.save(fileHandler, gameData);
     }
 
     public int getScore() {
-        return score;
+        return GameLauncher.BALANCE;
     }
 
     private void setScore(int score) {
-        this.score = score;
+        GameLauncher.BALANCE = score;
         digitRenderer.setNumber(score);
     }
 
@@ -222,12 +222,12 @@ public class LVLPlanet extends Level implements MenuButtonListener {
             GameLauncher.getAssetHandler().getSound("sndExplode").play();
         }
 
-
         this.gameOver = gameOver;
     }
 
     @Override
     public void end() {
+        save(GameLauncher.getFileHandler(),GameLauncher.getGameData());
         super.end();
     }
 }
