@@ -8,7 +8,10 @@ import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.GameData;
 import com.mcforsas.game.engine.core.GameObject;
 import com.mcforsas.game.engine.core.Utils;
+import com.mcforsas.game.engine.handlers.AssetHandler;
 import com.mcforsas.game.engine.handlers.FileHandler;
+
+import java.awt.image.SinglePixelPackedSampleModel;
 
 /**
  * @author mcforsas on
@@ -43,9 +46,17 @@ public class GOSkin extends GameObject {
         unlockedTexture = sprite.getTexture();
         lockedTexture = GameLauncher.getAssetHandler().getTexture("sprPlanet");
 
+        //TODO: make normal texture
+        selected = new Sprite(AssetHandler.getTexture("sprBadlogic"));
+        selected.setSize(skinDimensions,skinDimensions);
+        selected.setOriginCenter();
+        selected.setOriginBasedPosition(x,y);
+
         sprite.setSize(skinDimensions,skinDimensions);
         sprite.setOriginCenter();
         sprite.setOriginBasedPosition(x,y);
+
+
 
         setUnlocked(isUnlocked);
 
@@ -56,11 +67,15 @@ public class GOSkin extends GameObject {
     @Override
     public void render(SpriteBatch spriteBatch, float deltaTime) {
         super.render(spriteBatch, deltaTime);
+        if(isSelected){
+            selected.draw(spriteBatch);
+        }
     }
 
     @Override
     public void update(float deltaTime) {
         sprite.setOriginBasedPosition(x,y);
+        selected.setOriginBasedPosition(x,y);
         super.update(deltaTime);
     }
 

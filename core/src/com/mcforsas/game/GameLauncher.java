@@ -23,6 +23,9 @@ public class GameLauncher extends Engine {
     private float maxAspectDeviation = .2f;
     public static int BALANCE;
     public static int SKIN_SELECTED;
+    public static LVLMainMenu lvlMainMenu;
+    public static LVLShop lvlShop;
+    public static LVLPlanet lvlPlanet;
 
     //Config here
     public GameLauncher() {
@@ -53,9 +56,14 @@ public class GameLauncher extends Engine {
 
     @Override
     protected void startGame() {
-        levelHandler.addLevel(new LVLShop());
-        levelHandler.addLevel(new LVLMainMenu());
-        levelHandler.addLevel(new LVLPlanet());
+        lvlMainMenu = new LVLMainMenu();
+        lvlShop = new LVLShop();
+        lvlPlanet = new LVLPlanet();
+
+        levelHandler.addLevel(lvlMainMenu);
+        levelHandler.addLevel(lvlPlanet);
+        levelHandler.addLevel(lvlShop);
+
         super.startGame();
     }
 
@@ -85,9 +93,10 @@ public class GameLauncher extends Engine {
             assetHandler.addToQueue(Texture.class, GODigitRenderer.TEXTURE_PREFIX + i, "font_numbers/"+ i +".png");
         }
 
+
         //load skin textures
 
-        for(int i = 0; i < GOSkinShop.SKIN_AMOUNT; i++){
+        for(int i = 0; i < GOSkinShop.SKIN_AMOUNT; i++) {
             //TODO: set to skin dir
             assetHandler.addToQueue(Texture.class, GOSkin.SKIN_PREFIX + i, "rover.png");
         }
@@ -95,5 +104,11 @@ public class GameLauncher extends Engine {
         super.loadAssets();
     }
 
-
+    @Override
+    public void dispose() {
+        assetHandler.dispose();
+        levelHandler.dispose();
+        levelHandler.save(fileHandler,gameData);
+        super.dispose();
+    }
 }

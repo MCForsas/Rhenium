@@ -146,8 +146,8 @@ public class LevelHandler extends Renderable {
     }
 
     public void setCurrentLevel(Level level) throws NullPointerException{
+        endLevel();
         this.currentLevel = level;
-
         //DEBUG:
         if(level == null)
             throw new NullPointerException();

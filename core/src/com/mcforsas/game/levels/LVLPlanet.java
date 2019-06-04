@@ -172,8 +172,8 @@ public class LVLPlanet extends Level implements MenuButtonListener {
     public void onClick(GOMenuButton menuButton) {
         switch (menuButton.getType()){
             case MAIN_MENU:
-                end();
-                GameLauncher.getLevelHandler().previousLevel();
+                //end();
+                GameLauncher.getLevelHandler().setCurrentLevel(GameLauncher.lvlMainMenu);
                 break;
             case RESTART:
                 GameLauncher.getLevelHandler().restartLevel();

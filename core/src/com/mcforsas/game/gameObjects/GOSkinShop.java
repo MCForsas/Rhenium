@@ -7,6 +7,7 @@ import com.mcforsas.game.engine.core.Utils;
 import com.mcforsas.game.engine.handlers.AssetHandler;
 import com.mcforsas.game.engine.handlers.FileHandler;
 
+import java.lang.reflect.GenericArrayType;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -22,11 +23,13 @@ public class GOSkinShop extends GameObject {
     private float scrollSpeed = .05f;
     private float scrollPos = -SKIN_AMOUNT * (GOSkin.skinDimensions + padding) + GOSkin.skinDimensions*3;
 
-    private int selected = GameLauncher.SKIN_SELECTED;
     private final int skinPrice = 100;
+
+    private GODigitRenderer digitRenderer;
 
     @Override
     public void start() {
+        this.x = 1f;
 
         skins = new Vector<GOSkin>();
 
@@ -35,7 +38,7 @@ public class GOSkinShop extends GameObject {
                     this,
                     i,
                     (Boolean) GameLauncher.getFileHandler().getPreferences("isSkinUnlocked"+i, Boolean.class,false),
-                    0,
+                    x,
                     i * (GOSkin.skinDimensions + padding)
             );
 
@@ -43,29 +46,47 @@ public class GOSkinShop extends GameObject {
             level.addGameObject(skin);
         }
 
+        //Unlock the default sprite
+        skins.get(0).setUnlocked(true);
+        skins.get(GameLauncher.SKIN_SELECTED).setSelected(true);
+
+
         Engine.getInputHandler().addInputListener(this);
 
         for(int i = 0; i < SKIN_AMOUNT; i++){
             skins.get(i).setY(i * (GOSkin.skinDimensions + padding) + scrollPos);
         }
 
+        digitRenderer = new GODigitRenderer(GameLauncher.BALANCE,-3f,6f);
+        digitRenderer.setHeight(1f);
+        digitRenderer.setX(digitRenderer.getX() - digitRenderer.getStringWidth()/2f);
+        digitRenderer.setSpacing(.2f);
+        level.addGameObject(digitRenderer);
+
         super.start();
     }
 
     protected void onClick(GOSkin skin){
 
-        if(skin.isUnlocked()){
+        if(!skin.isUnlocked()){
             if(GameLauncher.BALANCE >= skinPrice){
                 GameLauncher.BALANCE -= skinPrice;
                 skin.setUnlocked(true);
                 skin.setSelected(true);
-
-                skins.get(GameLauncher.SKIN_SELECTED).setSelected(false); //unselect selected skin
-                GameLauncher.SKIN_SELECTED = skin.getIndex();
+                setSelectedSkin(skin.getIndex());
+                digitRenderer.setNumber(GameLauncher.BALANCE);
             }else{
                 //TODO: play a sound
             }
+        }else{
+            setSelectedSkin(skin.getIndex());
         }
+    }
+
+    private void setSelectedSkin(int index){
+        skins.get(GameLauncher.SKIN_SELECTED).setSelected(false); //unselect selected skin
+        GameLauncher.SKIN_SELECTED = index;
+        skins.get(index).setSelected(true);
     }
 
     @Override
@@ -91,7 +112,7 @@ public class GOSkinShop extends GameObject {
             GameLauncher.getFileHandler().putPreferencesBoolean("isSkinUnlocked"+i,skins.get(i).isUnlocked());
         }
 
-        GameLauncher.getFileHandler().putPreferencesInt("skinSelected",selected);
+        GameLauncher.getFileHandler().putPreferencesInt("skinSelected",GameLauncher.SKIN_SELECTED);
         super.save(fileHandler, gameData);
     }
 

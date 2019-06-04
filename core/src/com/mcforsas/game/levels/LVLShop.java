@@ -6,13 +6,16 @@ import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.Level;
 import com.mcforsas.game.engine.core.Utils;
 import com.mcforsas.game.engine.handlers.AssetHandler;
+import com.mcforsas.game.gameObjects.GOMenuButton;
 import com.mcforsas.game.gameObjects.GOSkinShop;
+import com.mcforsas.game.gameObjects.MenuButtonListener;
+import com.mcforsas.game.gameObjects.MenuButtonTypes;
 
 /**
  * Created by mcforsas on 19.5.30
  * Shop where you can buy new skins for cars.
  */
-public class LVLShop extends Level {
+public class LVLShop extends Level implements MenuButtonListener {
     private int score;
 
     @Override
@@ -22,6 +25,7 @@ public class LVLShop extends Level {
         setHeigth(Engine.getWorldHeight()/2f);
 
         addGameObject(new GOSkinShop());
+        addGameObject(new GOMenuButton(MenuButtonTypes.MAIN_MENU,-3f,-5f,this));
 
         sprite = new Sprite(AssetHandler.getTexture("sprStars"));
         sprite.setSize(heigth,heigth);
@@ -36,5 +40,12 @@ public class LVLShop extends Level {
     @Override
     public void end() {
         super.end();
+    }
+
+    @Override
+    public void onClick(GOMenuButton menuButton) {
+        if(menuButton.getType() == MenuButtonTypes.MAIN_MENU){
+            GameLauncher.getLevelHandler().setCurrentLevel(GameLauncher.lvlMainMenu);
+        }
     }
 }

@@ -19,23 +19,23 @@ public class GOCar extends GameObject {
     private float turnSpeed =  3f;
     private int turnDirection = 0; //Variable used for touch input
     private boolean isControllable = true;
+    private float size;
 
     private float speedHorizontal = 0, speedVertical = 0;
 
     public GOCar(float size, float x, float y, float depth, Level level){
-        sprite = new Sprite(AssetHandler.getTexture("sprRover"));
-
         this.x = x;
         this.y = y;
+        this.size = size;
 
         setDepth(depth);
-        sprite.setSize(size,size);
-
         GameLauncher.getInputHandler().addInputListener(this);
     }
 
     @Override
     public void start() {
+        sprite = new Sprite(AssetHandler.getTexture(GOSkin.SKIN_PREFIX + GameLauncher.SKIN_SELECTED));
+        sprite.setSize(size,size);
         sprite.setOriginCenter();
         sprite.setOriginBasedPosition(x,y);
         super.start();
