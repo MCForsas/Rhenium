@@ -22,7 +22,7 @@ public class GOSkin extends GameObject {
     private GOSkinShop shop;
     private int index;
     public static final String SKIN_PREFIX = "sprSkin";
-    public static final float skinDimensions = 3f;
+    public static final float skinDimensions = 24f;
     private boolean isUnlocked;
     private boolean isSelected;
 

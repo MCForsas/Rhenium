@@ -33,7 +33,7 @@ public class RenderHandler {
     private boolean isCameraBounded = false; //Weather camera is allowed to leave the level
 
     //Maximum allowed deviation from regular aspect ratio
-    private float maxAspectDeviation = 0;
+    private float maxAspectDeviation = GameLauncher.MAX_ASPECT_DEVIATION;
 
     //Defaults
     private static final float DINAMIC_CAMERA_MOVESPEED = 1f;
@@ -58,20 +58,12 @@ public class RenderHandler {
                 new CameraHandler(DINAMIC_CAMERA_MOVESPEED, DINAMIC_CAMERA_MAXRADIUS),
                 new ExtendViewport(
                         GameLauncher.getWorldWidth(), GameLauncher.getWorldHeight(),
+                        GameLauncher.getWorldWidth() *(1 + GameLauncher.MAX_ASPECT_DEVIATION), GameLauncher.getWorldHeight() *(1 + GameLauncher.MAX_ASPECT_DEVIATION),
                         currentCamera)
         );
+        setMaxAspectDeviation(GameLauncher.MAX_ASPECT_DEVIATION);
         addViewport(currentViewport);
 
-    }
-
-    public void setup(Camera camera, ExtendViewport viewport, float maxAspectDeviation){
-        setup(camera, viewport);
-        setMaxAspectDeviation(maxAspectDeviation);
-
-        setViewportMaxDimensions(
-                currentViewport.getWorldWidth() * (1 + maxAspectDeviation),
-                currentViewport.getWorldHeight() * (1 + maxAspectDeviation)
-        );
     }
 
 
@@ -91,7 +83,7 @@ public class RenderHandler {
         }
 
         currentCamera.update();
-        currentViewport.apply();
+        //currentViewport.apply();
 
         sb.setProjectionMatrix(currentCamera.combined);
 
@@ -197,30 +189,6 @@ public class RenderHandler {
 
     public void removeViewport(Viewport viewport){
         viewports.remove(viewport);
-    }
-
-    /**
-     * Max dimensions before viewport starts letterboxing
-     * @param viewport to apply to
-     * @param width size in px
-     * @param height size in px
-     */
-    private void setViewportMaxDimensions(Viewport viewport, float width, float height) throws IncompatibleViewportException{
-        if(viewport.getClass() == ExtendViewport.class){
-            ((ExtendViewport) viewport).setMaxWorldWidth(width);
-            ((ExtendViewport) viewport).setMaxWorldHeight(height);
-        }else{
-            throw new IncompatibleViewportException("Tried to set max world dimension's for viewport which is not an ExtendViewport");
-        }
-    }
-
-    public void setViewportMaxDimensions(float width, float height) {
-        try {
-            setViewportMaxDimensions(currentViewport, width, height);
-        }catch (IncompatibleViewportException e){
-            e.printStackTrace();
-        }
-
     }
     //endregion
 

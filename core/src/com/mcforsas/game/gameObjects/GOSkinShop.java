@@ -18,7 +18,7 @@ import java.util.Vector;
 public class GOSkinShop extends GameObject {
     private Vector<GOSkin> skins;
     public static int SKIN_AMOUNT = 10;
-    private float padding = 1f;
+    private float padding = 4f;
     private float touchY;
     private float scrollSpeed = .05f;
     private float scrollPos = -SKIN_AMOUNT * (GOSkin.skinDimensions + padding) + GOSkin.skinDimensions*3;
@@ -29,7 +29,7 @@ public class GOSkinShop extends GameObject {
 
     @Override
     public void start() {
-        this.x = 1f;
+        this.x = 16f;
 
         skins = new Vector<GOSkin>();
 
@@ -57,10 +57,9 @@ public class GOSkinShop extends GameObject {
             skins.get(i).setY(i * (GOSkin.skinDimensions + padding) + scrollPos);
         }
 
-        digitRenderer = new GODigitRenderer(GameLauncher.BALANCE,-3f,6f);
-        digitRenderer.setHeight(1f);
+        digitRenderer = new GODigitRenderer(GameLauncher.BALANCE,-32f,64f);
+        digitRenderer.setHeight(16f);
         digitRenderer.setX(digitRenderer.getX() - digitRenderer.getStringWidth()/2f);
-        digitRenderer.setSpacing(.2f);
         level.addGameObject(digitRenderer);
 
         super.start();

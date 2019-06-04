@@ -14,7 +14,7 @@ import com.mcforsas.game.engine.handlers.FileHandler;
  */
 public class GOCar extends GameObject {
 
-    private float moveSpeed = .07f;
+    private float moveSpeed = 1f;
     private float direction = 90f; //Direction in degrees;
     private float turnSpeed =  3f;
     private int turnDirection = 0; //Variable used for touch input

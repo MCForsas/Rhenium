@@ -32,27 +32,27 @@ public class GOMenuButton extends GameObject {
             //TODO: replace with normal sprites
             case START:
                 this.sprite = new Sprite(GameLauncher.getAssetHandler().getTexture("sprButtonStart"));
-                this.sprite.setSize(2f,2f);
+                this.sprite.setSize(24f,24f);
                 this.sprite.setOriginCenter();
                 this.sprite.setOriginBasedPosition(x,y);
                 break;
             case RESTART:
                 this.sprite = new Sprite(GameLauncher.getAssetHandler().getTexture("sprButtonRestart"));
-                this.sprite.setSize(2f,2f);
+                this.sprite.setSize(24f,24f);
                 this.sprite.setOriginCenter();
                 this.sprite.setOriginBasedPosition(x,y);
                 break;
             case MAIN_MENU:
                 //TODO: replace with sprite
                 this.sprite = new Sprite(GameLauncher.getAssetHandler().getTexture("sprButtonStart"));
-                this.sprite.setSize(2f,2f);
+                this.sprite.setSize(24f,24f);
                 this.sprite.setOriginCenter();
                 this.sprite.setOriginBasedPosition(x,y);
                 break;
             case SHOP:
                 //TODO: replace with shop sprite
                 this.sprite = new Sprite(GameLauncher.getAssetHandler().getTexture("sprButtonRestart"));
-                this.sprite.setSize(2f,2f);
+                this.sprite.setSize(24f,24f);
                 this.sprite.setOriginCenter();
                 this.sprite.setOriginBasedPosition(x,y);
                 break;

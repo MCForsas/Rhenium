@@ -17,7 +17,7 @@ public class GODigitRenderer extends GameObject {
 
     private float height = 0f; //If it's 0, width will be used
     private float width = 0f;
-    private float spacing = 0;
+    private float spacing = 0f;
 
     private HashMap<String, Texture> textureHashMap = new HashMap<String, Texture>();
 

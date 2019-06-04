@@ -16,19 +16,15 @@ import com.mcforsas.game.gameObjects.MenuButtonTypes;
  * Shop where you can buy new skins for cars.
  */
 public class LVLShop extends Level implements MenuButtonListener {
-    private int score;
 
     @Override
     public void start() {
 
-        setWidth(Engine.getWorldWidth()/2f);
-        setHeigth(Engine.getWorldHeight()/2f);
-
         addGameObject(new GOSkinShop());
-        addGameObject(new GOMenuButton(MenuButtonTypes.MAIN_MENU,-3f,-5f,this));
+        addGameObject(new GOMenuButton(MenuButtonTypes.MAIN_MENU,-32f,-64f,this));
 
         sprite = new Sprite(AssetHandler.getTexture("sprStars"));
-        sprite.setSize(heigth,heigth);
+        sprite.setSize(heigth*(1+GameLauncher.MAX_ASPECT_DEVIATION),heigth*(1+GameLauncher.MAX_ASPECT_DEVIATION));
         sprite.setOriginCenter();
         sprite.setOriginBasedPosition(0f,0f);
 

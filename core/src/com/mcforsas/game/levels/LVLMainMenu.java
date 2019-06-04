@@ -5,6 +5,7 @@ import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.Level;
 import com.mcforsas.game.engine.handlers.AssetHandler;
+import com.mcforsas.game.engine.handlers.RenderHandler;
 import com.mcforsas.game.gameObjects.*;
 
 /**
@@ -20,28 +21,25 @@ public class LVLMainMenu extends Level implements MenuButtonListener {
 
     @Override
     public void start() {
-        setWidth(Engine.getWorldWidth()/2f);
-        setHeigth(Engine.getWorldHeight()/2f);
 
-        menuButtonStart = new GOMenuButton(MenuButtonTypes.START, 0,0,this);
-        menuButtonShop = new GOMenuButton(MenuButtonTypes.SHOP, 0,-4,this);
+        menuButtonStart = new GOMenuButton(MenuButtonTypes.START, width/2f,80,this);
+        menuButtonShop = new GOMenuButton(MenuButtonTypes.SHOP, width/2f,32,this);
 
-        digitRenderer = new GODigitRenderer(GameLauncher.BALANCE,0,4.5f);
-        digitRenderer.setHeight(2f);
+        digitRenderer = new GODigitRenderer(GameLauncher.BALANCE,width/2,128);
+        digitRenderer.setHeight(16f);
         digitRenderer.setX(digitRenderer.getX() - digitRenderer.getStringWidth()/2f);
-        digitRenderer.setSpacing(.2f);
 
         sprite = new Sprite(AssetHandler.getTexture("sprStars"));
-        sprite.setSize(heigth,heigth);
+        sprite.setSize(heigth*(1+GameLauncher.MAX_ASPECT_DEVIATION),heigth*(1+GameLauncher.MAX_ASPECT_DEVIATION));
         sprite.setOriginCenter();
-        sprite.setOriginBasedPosition(0f,0f);
+        sprite.setOriginBasedPosition(width/2,heigth/2);
 
         addGameObject(menuButtonStart);
         addGameObject(menuButtonShop);
+
         addGameObject(digitRenderer);
 
-        Engine.getRenderHandler().setCameraPosition(0,0);
-
+        Engine.getRenderHandler().setCameraPosition(width/2,heigth/2);
         super.start();
     }
 

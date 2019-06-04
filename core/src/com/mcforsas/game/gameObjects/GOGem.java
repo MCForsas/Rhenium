@@ -29,9 +29,10 @@ public class GOGem extends GameObject {
 
     @Override
     public void start() {
-        sprite.setSize(.75f,.75f);
+        sprite.setSize(16,16);
         sprite.setOriginCenter();
         sprite.setOriginBasedPosition(x,y);
+
         super.start();
     }
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.handlers.CameraHandler;
 import com.mcforsas.game.engine.handlers.FileHandler;
@@ -20,7 +21,7 @@ import com.mcforsas.game.levels.LVLShop;
  * Game object. All the config and constants should be set here
  */
 public class GameLauncher extends Engine {
-    private float maxAspectDeviation = .2f;
+    public static final float MAX_ASPECT_DEVIATION = .2f;
     public static int BALANCE;
     public static int SKIN_SELECTED;
     public static LVLMainMenu lvlMainMenu;
@@ -30,8 +31,8 @@ public class GameLauncher extends Engine {
     //Config here
     public GameLauncher() {
         FPS = 120;
-        WORLD_WIDTH = 90*maxAspectDeviation;
-        WORLD_HEIGHT = 160*maxAspectDeviation;
+        WORLD_WIDTH = 80;
+        WORLD_HEIGHT = 160;
         RESOLUTION_H = 1080/4;
         RESOLUTION_V = 1920/4;
     }
@@ -41,10 +42,14 @@ public class GameLauncher extends Engine {
         super.create();
 
         OrthographicCamera cameraHandler = new CameraHandler(.1f,.1f);
-        renderHandler.setup(
-                cameraHandler,
-                new ExtendViewport(WORLD_WIDTH/2, WORLD_HEIGHT/2, cameraHandler),
-                maxAspectDeviation
+        renderHandler.setup(cameraHandler,
+                new ExtendViewport(
+                        WORLD_WIDTH,
+                        WORLD_HEIGHT,
+                        WORLD_WIDTH*(1+MAX_ASPECT_DEVIATION),
+                        WORLD_HEIGHT*(1+MAX_ASPECT_DEVIATION),
+                        cameraHandler
+                )
         );
 
         fileHandler = new FileHandler("save.sav",false);

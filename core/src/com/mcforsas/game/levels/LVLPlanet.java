@@ -1,5 +1,6 @@
 package com.mcforsas.game.levels;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.GameLauncher;
@@ -13,7 +14,6 @@ import com.mcforsas.game.gameObjects.*;
  */
 public class LVLPlanet extends Level implements MenuButtonListener {
 
-    private float planetScale;
     private float shrinkProgress; //How much the planet has shrunken
     private float shrinkSpeed;
 
@@ -36,39 +36,40 @@ public class LVLPlanet extends Level implements MenuButtonListener {
     private GOMenuButton menuButtonMainMenu;
     private Sprite background;
 
+    private final float planetSize = 1280;
+
     @Override
     public void start() {
         gameOver = false;
-        planetScale = 4f;
-        shrinkSpeed = .00005f;
+        shrinkSpeed = .0001f;
         meteorSpawnPeriod = 25;
         difficultyLevel = 0;
         difficultyIncreasePeriod = 300;
-        gemSpawnChance = 30;
-        fontSize = 1f;
+        gemSpawnChance = 60;
+        fontSize = 16f;
         tick = 0;
-        carSize = 1f;
+        carSize = 12f;
+        shrinkProgress = 1f;
         setDepth(100);
 
 
 
         sprite = new Sprite(Engine.getAssetHandler().getTexture("sprPlanet"));
+        sprite.setSize(planetSize,planetSize);
         background = new Sprite(Engine.getAssetHandler().getTexture("sprStars"));
 
-        sprite.setSize(Engine.getWorldWidth()*planetScale,Engine.getWorldWidth()*planetScale);
         sprite.setOriginCenter();
         sprite.setOriginBasedPosition(getWidth()/2,getHeigth()/2);
 
-        background.setSize(getHeigth(),getHeigth());
+        background.setSize(heigth*(1+GameLauncher.MAX_ASPECT_DEVIATION),heigth*(1+GameLauncher.MAX_ASPECT_DEVIATION));
         background.setOriginCenter();
         background.setRotation((Float) Utils.choose(0f,90f,180f,270f));
 
-        car = new GOCar(carSize,getWidth()/2,getHeigth()/2,50,this);
+        car = new GOCar(carSize,getWidth()/2,getHeigth()/2,25,this);
         addGameObject(car);
 
         digitRenderer = new GODigitRenderer(GameLauncher.BALANCE,width/2,10f);
         digitRenderer.setHeight(fontSize);
-        digitRenderer.setSpacing(.2f);
 
         addGameObject(digitRenderer);
 
@@ -82,23 +83,22 @@ public class LVLPlanet extends Level implements MenuButtonListener {
 
         if(gameOver){
             menuButtonRestart.setX(Engine.getRenderHandler().getCamera().position.x);
-            menuButtonRestart.setY(Engine.getRenderHandler().getCamera().position.y + 3f);
+            menuButtonRestart.setY(Engine.getRenderHandler().getCamera().position.y + 16f);
             menuButtonMainMenu.setX(Engine.getRenderHandler().getCamera().position.x);
-            menuButtonMainMenu.setY(Engine.getRenderHandler().getCamera().position.y - 3f);
+            menuButtonMainMenu.setY(Engine.getRenderHandler().getCamera().position.y - 32f);
         }
 
 
         //Shrink the planet until it's just little enough to drive on
-        if(shrinkProgress < .7f) {
-            shrinkProgress += shrinkSpeed;
+        if(shrinkProgress >= .2f) {
+            shrinkProgress -= shrinkSpeed;
         }else {
             //TODO: game over?
         }
 
         //Ease in planet's shrinkige
         //TODO: review if it's needed
-        planetScale = Utils.easeIn(1f - shrinkProgress);
-        sprite.setScale(planetScale);
+        sprite.setScale(shrinkProgress);
 
 
 
@@ -146,7 +146,7 @@ public class LVLPlanet extends Level implements MenuButtonListener {
      * @return planetsDiameter
      */
     public float getPlanetDiameter(){
-        return planetScale * (sprite.getWidth() + sprite.getHeight())/2;
+        return shrinkProgress * (sprite.getWidth() + sprite.getHeight())/2;
     }
 
     public int getGemSpawnChance() {
