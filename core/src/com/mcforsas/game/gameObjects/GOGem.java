@@ -32,6 +32,7 @@ public class GOGem extends GameObject {
         sprite.setSize(16,16);
         sprite.setOriginCenter();
         sprite.setOriginBasedPosition(x,y);
+        sprite.setRotation((Integer) Utils.choose(0,90,180,270));
 
         super.start();
     }

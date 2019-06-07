@@ -13,7 +13,7 @@ import com.mcforsas.game.levels.LVLPlanet;
 public class GOMeteor extends GameObject {
 
     private LVLPlanet LVLPlanet;
-    private float size = Utils.irandomRange(1,4)*4f; //How big the meteor is
+    private int size = Utils.irandomRange(2,4)*4; //How big the meteor is
     private float speed = Utils.irandomRange(4,8)/10f; //How fast it moves
     private GOCar car;
     private float direction; //Which direction 0 - 360 it's heading to
@@ -25,6 +25,9 @@ public class GOMeteor extends GameObject {
 
     private float rotationSpeed = Utils.irandomRange(30,30)/10 - 3f;
 
+    public static final String METEOR_PREFIX = "sprMeteor";
+    public static final String CRATER_PREFIX = "sprCrater";
+
     public GOMeteor(float depth, LVLPlanet LVLPlanet, GOCar car){
         this.LVLPlanet = LVLPlanet;
         this.car = car;
@@ -34,7 +37,7 @@ public class GOMeteor extends GameObject {
 
     @Override
     public void start() {
-        sprite = new Sprite(AssetHandler.getTexture("sprMeteor"));
+        sprite = new Sprite(AssetHandler.getTexture(METEOR_PREFIX + size));
 
         float spawnPlace = Utils.irandom(360); //Where it spawns on circle around car object
 
@@ -46,6 +49,8 @@ public class GOMeteor extends GameObject {
         sprite.setSize(size,size);
         sprite.setOriginCenter();
         sprite.setOriginBasedPosition(x,y);
+
+        setDepth(-20);
 
         super.start();
     }
@@ -73,8 +78,8 @@ public class GOMeteor extends GameObject {
             }
 
             //If the meteor get's outside the planet, destroy it
-            if(Utils.distanceBetweenPoints(x,y, 0,0)
-                            > LVLPlanet.getPlanetDiameter()/2){
+            if(Utils.distanceBetweenPoints(x,y, level.getWidth()/2f,level.getHeigth()/2f)
+                            > LVLPlanet.getPlanetDiameter()/2f){
                 end();
             }
 
@@ -87,8 +92,8 @@ public class GOMeteor extends GameObject {
 
             //Ground the meteor if it's near the car and is not outside the planet
             if(Utils.distanceBetweenPoints(x,y,car.getX(), car.getY()) <= explodeDistance
-                    && Utils.distanceBetweenPoints(x,y,0,0)
-                    <= LVLPlanet.getPlanetDiameter()/2){
+                    && Utils.distanceBetweenPoints(x,y,level.getWidth()/2f,level.getHeigth()/2f)
+                    <= LVLPlanet.getPlanetDiameter()/2f){
                 setOnGround(true);
             }
         }
@@ -96,7 +101,7 @@ public class GOMeteor extends GameObject {
         sprite.setPosition(x,y);
 
         //If meteor get's outside the map, destroy it
-        if(Utils.distanceBetweenPoints(x,y,0,0) >= spawnDistance*2){
+        if(Utils.distanceBetweenPoints(x,y,car.getX(),car.getY()) >= spawnDistance*2){
             end();
         }
     }
@@ -107,7 +112,7 @@ public class GOMeteor extends GameObject {
 
     public void setOnGround(boolean onGround) {
         this.onGround = onGround;
-        sprite.setTexture(AssetHandler.getTexture("sprCrater"));
+        sprite.setTexture(AssetHandler.getTexture(CRATER_PREFIX + size));
         sprite.setRotation((Integer) Utils.choose(0,90,180,270));
     }
 }

@@ -1,0 +1,12 @@
++planet: 1280*1280;
++stars: 192*192;
++font: 16*8;
++car: 12*12; * 10 skins
++meteors: 4,8,12,16;
++craters: 4,8,12,16;
++gems: (8)16;~
++select, locked: 24*24;
++buttons: 24*24;
++launcher icon: 8*8
++buttons: Play game; Shop; BackToMenu; Play again
+

@@ -44,10 +44,10 @@ public class GOSkin extends GameObject {
         );
 
         unlockedTexture = sprite.getTexture();
-        lockedTexture = GameLauncher.getAssetHandler().getTexture("sprPlanet");
+        lockedTexture = GameLauncher.getAssetHandler().getTexture("sprShopLocked");
 
         //TODO: make normal texture
-        selected = new Sprite(AssetHandler.getTexture("sprBadlogic"));
+        selected = new Sprite(AssetHandler.getTexture("sprShopSelect"));
         selected.setSize(skinDimensions,skinDimensions);
         selected.setOriginCenter();
         selected.setOriginBasedPosition(x,y);

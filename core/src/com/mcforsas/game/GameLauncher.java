@@ -10,6 +10,7 @@ import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.handlers.CameraHandler;
 import com.mcforsas.game.engine.handlers.FileHandler;
 import com.mcforsas.game.gameObjects.GODigitRenderer;
+import com.mcforsas.game.gameObjects.GOMeteor;
 import com.mcforsas.game.gameObjects.GOSkin;
 import com.mcforsas.game.gameObjects.GOSkinShop;
 import com.mcforsas.game.levels.LVLMainMenu;
@@ -41,7 +42,7 @@ public class GameLauncher extends Engine {
     public void create() {
         super.create();
 
-        OrthographicCamera cameraHandler = new CameraHandler(.1f,.1f);
+        OrthographicCamera cameraHandler = new CameraHandler(2f,4f);
         renderHandler.setup(cameraHandler,
                 new ExtendViewport(
                         WORLD_WIDTH,
@@ -74,38 +75,49 @@ public class GameLauncher extends Engine {
 
     @Override
     protected void loadAssets() {
-        assetHandler.addToQueue(Texture.class, "sprBadlogic", "badlogic.jpg");
-        assetHandler.addToQueue(Texture.class, "sprExample", "example.jpg");
 
+        //region <Textures>
         assetHandler.addToQueue(Texture.class, "sprPlanet", "planet.png");
-        assetHandler.addToQueue(Texture.class, "sprMeteor", "meteor.png");
-        assetHandler.addToQueue(Texture.class, "sprRover", "rover.png");
         assetHandler.addToQueue(Texture.class, "sprGem", "gem.png");
-        assetHandler.addToQueue(Texture.class, "sprCrater", "crater.png");
         assetHandler.addToQueue(Texture.class, "sprStars","stars.png");
 
-        assetHandler.addToQueue(Texture.class, "sprButtonStart","button_start.png");
-        assetHandler.addToQueue(Texture.class, "sprButtonRestart","button_restart.png");
-
-        assetHandler.addToQueue(Music.class, "musExample","example.ogg");
-        assetHandler.addToQueue(Sound.class, "sndExample","test.wav");
-        assetHandler.addToQueue(Sound.class, "sndExplode","explode.mp3");
-        assetHandler.addToQueue(Sound.class, "sndGem","gem.mp3");
-        assetHandler.addToQueue(Sound.class, "sndGemPickup","gem_pickup.mp3");
+        assetHandler.addToQueue(Texture.class, "sprButtonStart","buttons/button_start.png");
+        assetHandler.addToQueue(Texture.class, "sprButtonRestart","buttons/button_restart.png");
+        assetHandler.addToQueue(Texture.class, "sprButtonMenu","buttons/button_menu.png");
+        assetHandler.addToQueue(Texture.class, "sprButtonShop","buttons/button_shop.png");
 
         //load digit textures
         for(int i = 0; i < 10; i++){
             assetHandler.addToQueue(Texture.class, GODigitRenderer.TEXTURE_PREFIX + i, "font_numbers/"+ i +".png");
         }
 
-
         //load skin textures
-
         for(int i = 0; i < GOSkinShop.SKIN_AMOUNT; i++) {
-            //TODO: set to skin dir
-            assetHandler.addToQueue(Texture.class, GOSkin.SKIN_PREFIX + i, "rover.png");
+            assetHandler.addToQueue(Texture.class, GOSkin.SKIN_PREFIX + i, "car_skins/"+i+".png");
         }
 
+        //load meteors
+        assetHandler.addToQueue(Texture.class, GOMeteor.METEOR_PREFIX + 8, "meteors/meteor_8.png");
+        assetHandler.addToQueue(Texture.class, GOMeteor.METEOR_PREFIX + 12, "meteors/meteor_12.png");
+        assetHandler.addToQueue(Texture.class, GOMeteor.METEOR_PREFIX + 16, "meteors/meteor_16.png");
+
+        //load craters
+        assetHandler.addToQueue(Texture.class, GOMeteor.CRATER_PREFIX + 8, "craters/crater_8.png");
+        assetHandler.addToQueue(Texture.class, GOMeteor.CRATER_PREFIX + 12, "craters/crater_12.png");
+        assetHandler.addToQueue(Texture.class, GOMeteor.CRATER_PREFIX + 16, "craters/crater_16.png");
+
+        //load shop icons
+        assetHandler.addToQueue(Texture.class, "sprShopSelect","shop/select.png");
+        assetHandler.addToQueue(Texture.class, "sprShopLocked","shop/locked.png");
+        //endregion
+
+        //region <Sounds>
+        assetHandler.addToQueue(Music.class, "musExample","example.ogg");
+        assetHandler.addToQueue(Sound.class, "sndExample","test.wav");
+        assetHandler.addToQueue(Sound.class, "sndExplode","explode.mp3");
+        assetHandler.addToQueue(Sound.class, "sndGem","gem.mp3");
+        assetHandler.addToQueue(Sound.class, "sndGemPickup","gem_pickup.mp3");
+        //endregion
         super.loadAssets();
     }
 

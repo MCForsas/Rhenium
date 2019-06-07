@@ -4,11 +4,8 @@ import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.GameData;
 import com.mcforsas.game.engine.core.GameObject;
 import com.mcforsas.game.engine.core.Utils;
-import com.mcforsas.game.engine.handlers.AssetHandler;
 import com.mcforsas.game.engine.handlers.FileHandler;
 
-import java.lang.reflect.GenericArrayType;
-import java.util.HashMap;
 import java.util.Vector;
 
 /**
@@ -57,10 +54,13 @@ public class GOSkinShop extends GameObject {
             skins.get(i).setY(i * (GOSkin.skinDimensions + padding) + scrollPos);
         }
 
-        digitRenderer = new GODigitRenderer(GameLauncher.BALANCE,-32f,64f);
+        digitRenderer = new GODigitRenderer(GameLauncher.BALANCE,-24f,48f);
         digitRenderer.setHeight(16f);
         digitRenderer.setX(digitRenderer.getX() - digitRenderer.getStringWidth()/2f);
         level.addGameObject(digitRenderer);
+        GODigitRenderer digitRendererPrice = new GODigitRenderer(skinPrice,-36f,0f);
+        digitRendererPrice.setHeight(16f);
+        level.addGameObject(digitRendererPrice);
 
         super.start();
     }

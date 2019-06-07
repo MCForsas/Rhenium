@@ -21,7 +21,7 @@ public class LVLShop extends Level implements MenuButtonListener {
     public void start() {
 
         addGameObject(new GOSkinShop());
-        addGameObject(new GOMenuButton(MenuButtonTypes.MAIN_MENU,-32f,-64f,this));
+        addGameObject(new GOMenuButton(MenuButtonTypes.MAIN_MENU,-24f,-48f,this));
 
         sprite = new Sprite(AssetHandler.getTexture("sprStars"));
         sprite.setSize(heigth*(1+GameLauncher.MAX_ASPECT_DEVIATION),heigth*(1+GameLauncher.MAX_ASPECT_DEVIATION));

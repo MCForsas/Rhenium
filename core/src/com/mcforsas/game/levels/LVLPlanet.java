@@ -41,18 +41,16 @@ public class LVLPlanet extends Level implements MenuButtonListener {
     @Override
     public void start() {
         gameOver = false;
-        shrinkSpeed = .0001f;
-        meteorSpawnPeriod = 25;
+        shrinkSpeed = 0f;//.0001f;
+        meteorSpawnPeriod = 50;
         difficultyLevel = 0;
-        difficultyIncreasePeriod = 300;
+        difficultyIncreasePeriod = 800;
         gemSpawnChance = 60;
         fontSize = 16f;
         tick = 0;
         carSize = 12f;
         shrinkProgress = 1f;
         setDepth(100);
-
-
 
         sprite = new Sprite(Engine.getAssetHandler().getTexture("sprPlanet"));
         sprite.setSize(planetSize,planetSize);
@@ -146,7 +144,7 @@ public class LVLPlanet extends Level implements MenuButtonListener {
      * @return planetsDiameter
      */
     public float getPlanetDiameter(){
-        return shrinkProgress * (sprite.getWidth() + sprite.getHeight())/2;
+        return shrinkProgress * planetSize;
     }
 
     public int getGemSpawnChance() {

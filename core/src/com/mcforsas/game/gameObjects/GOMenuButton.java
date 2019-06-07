@@ -29,7 +29,6 @@ public class GOMenuButton extends GameObject {
     public void start() {
         setDepth(-10);
         switch (type) {
-            //TODO: replace with normal sprites
             case START:
                 this.sprite = new Sprite(GameLauncher.getAssetHandler().getTexture("sprButtonStart"));
                 this.sprite.setSize(24f,24f);
@@ -43,15 +42,13 @@ public class GOMenuButton extends GameObject {
                 this.sprite.setOriginBasedPosition(x,y);
                 break;
             case MAIN_MENU:
-                //TODO: replace with sprite
-                this.sprite = new Sprite(GameLauncher.getAssetHandler().getTexture("sprButtonStart"));
+                this.sprite = new Sprite(GameLauncher.getAssetHandler().getTexture("sprButtonMenu"));
                 this.sprite.setSize(24f,24f);
                 this.sprite.setOriginCenter();
                 this.sprite.setOriginBasedPosition(x,y);
                 break;
             case SHOP:
-                //TODO: replace with shop sprite
-                this.sprite = new Sprite(GameLauncher.getAssetHandler().getTexture("sprButtonRestart"));
+                this.sprite = new Sprite(GameLauncher.getAssetHandler().getTexture("sprButtonShop"));
                 this.sprite.setSize(24f,24f);
                 this.sprite.setOriginCenter();
                 this.sprite.setOriginBasedPosition(x,y);
