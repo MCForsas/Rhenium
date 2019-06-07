@@ -13,17 +13,17 @@ import com.mcforsas.game.levels.LVLPlanet;
 public class GOMeteor extends GameObject {
 
     private LVLPlanet LVLPlanet;
-    private int size = Utils.irandomRange(2,4)*4; //How big the meteor is
-    private float speed = Utils.irandomRange(4,8)/10f; //How fast it moves
+    private int size; //How big the meteor is
+    private float speed; //How fast it moves
     private GOCar car;
     private float direction; //Which direction 0 - 360 it's heading to
     private float spawnDistance = 128f; //How far from the car it spawns
-    private float explodeDistance = Utils.irandomRange(32,128); //The minimum distance to car before it explodes
+    private float explodeDistance; //The minimum distance to car before it explodes
 
     private int tick;
     private boolean onGround = false; //If it has already hit the ground
 
-    private float rotationSpeed = Utils.irandomRange(30,30)/10 - 3f;
+    private float rotationSpeed;
 
     public static final String METEOR_PREFIX = "sprMeteor";
     public static final String CRATER_PREFIX = "sprCrater";
@@ -35,15 +35,27 @@ public class GOMeteor extends GameObject {
         setDepth(depth);
     }
 
+
+
     @Override
     public void start() {
-        sprite = new Sprite(AssetHandler.getTexture(METEOR_PREFIX + size));
+        size = Utils.irandomRange(2,4)*4;
+        speed = Utils.irandomRange(4,8)/10f;
+        explodeDistance = Utils.irandomRange(32,128);
+        rotationSpeed = Utils.irandomRange(30,30)/10 - 3f;
 
+        sprite = new Sprite(AssetHandler.getTexture(METEOR_PREFIX + size)); //Get accordingly sized sprite
+
+        /**
+         * The way this object spawns is this: it chooses a random point on a circle around the car. Then it chooses
+         * a direction to fly to. Then it's coordinates are set to a point around a circle where it cannot be seen
+         * from a playable area.
+         */
         float spawnPlace = Utils.irandom(360); //Where it spawns on circle around car object
 
-        this.direction = (float) (90 - Utils.irandomRange(80,250));
+        this.direction = (float) (90 - Utils.irandomRange(80,250)); //choose a direction to fly to;
 
-        x = car.getX() + (float) Math.cos(Math.toRadians(spawnPlace)) * spawnDistance;
+        x = car.getX() + (float) Math.cos(Math.toRadians(spawnPlace)) * spawnDistance; //Position it self
         y = car.getY() + (float) Math.sin(Math.toRadians(spawnPlace)) * spawnDistance;
 
         sprite.setSize(size,size);
@@ -60,8 +72,9 @@ public class GOMeteor extends GameObject {
         super.update(deltaTime);
 
         if(onGround) {
+            //region <On ground>
             setDepth(50);
-            //If meter hit the ground, and is there for 400 tics, destroy it
+            //If meteor hit the ground, and is there for some tics, destroy it
             if(tick >= size*32){
                 if(Utils.chance(LVLPlanet.getGemSpawnChance())){
                     LVLPlanet.addGameObject(new GOGem(x,y,this.depth, LVLPlanet,car));
@@ -84,7 +97,9 @@ public class GOMeteor extends GameObject {
             }
 
             tick++;
+            //endregion
         }else{
+            //region <In the air>
             this.x += (float) Math.cos(Math.toRadians(direction)) * speed;
             this.y += (float) Math.sin(Math.toRadians(direction)) * speed;
 
@@ -100,11 +115,12 @@ public class GOMeteor extends GameObject {
                     GameLauncher.getAssetHandler().getSound("sndExplosion").play();
                 }
             }
+            //endregion
         }
 
         sprite.setPosition(x,y);
 
-        //If meteor get's outside the map, destroy it
+        //If meteor get's too far outside the visible area, destroy it
         if(Utils.distanceBetweenPoints(x,y,car.getX(),car.getY()) >= spawnDistance*2){
             end();
         }
@@ -116,6 +132,8 @@ public class GOMeteor extends GameObject {
 
     public void setOnGround(boolean onGround) {
         this.onGround = onGround;
+
+        //Change the texture to crater
         sprite.setTexture(AssetHandler.getTexture(CRATER_PREFIX + size));
         sprite.setRotation((Integer) Utils.choose(0,90,180,270));
     }

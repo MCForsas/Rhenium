@@ -11,6 +11,7 @@ import com.mcforsas.game.gameObjects.*;
  * @author MCForsas @since 3/16/2019
  * Level holds game objects, varibles and shows planet sprite.
  */
+
 public class LVLPlanet extends Level implements MenuButtonListener {
     private int meteorSpawnPeriod; //What's the tick period between meteor spawning
     private int difficultyLevel;
@@ -43,7 +44,6 @@ public class LVLPlanet extends Level implements MenuButtonListener {
         fontSize = 16f;
         tick = 0;
         carSize = 12f;
-        setDepth(100);
 
         sprite = new Sprite(Engine.getAssetHandler().getTexture("sprPlanet"));
         sprite.setSize(planetSize,planetSize);
@@ -56,6 +56,7 @@ public class LVLPlanet extends Level implements MenuButtonListener {
         background.setOriginCenter();
         background.setRotation((Float) Utils.choose(0f,90f,180f,270f));
 
+        //Add a car object
         car = new GOCar(carSize,getWidth()/2,getHeigth()/2,25,this);
         addGameObject(car);
 
@@ -64,7 +65,7 @@ public class LVLPlanet extends Level implements MenuButtonListener {
 
         addGameObject(digitRenderer);
 
-
+        setDepth(100);
         super.start();
 
     }
@@ -72,13 +73,13 @@ public class LVLPlanet extends Level implements MenuButtonListener {
     @Override
     public void update(float deltaTime) {
 
+        //Position game over and restart buttons in the middle of the screen
         if(gameOver){
             menuButtonRestart.setX(Engine.getRenderHandler().getCamera().position.x);
             menuButtonRestart.setY(Engine.getRenderHandler().getCamera().position.y + 16f);
             menuButtonMainMenu.setX(Engine.getRenderHandler().getCamera().position.x);
             menuButtonMainMenu.setY(Engine.getRenderHandler().getCamera().position.y - 32f);
         }
-
 
 
         //Check if car is outside of planet:
@@ -121,18 +122,6 @@ public class LVLPlanet extends Level implements MenuButtonListener {
     }
 
     /**
-     * Return planet's diameter in units.
-     * @return planetsDiameter
-     */
-    public float getPlanetSize(){
-        return planetSize;
-    }
-
-    public int getGemSpawnChance() {
-        return gemSpawnChance;
-    }
-
-    /**
      * On gem collection increase the score
      */
     public void onGemCollected(){
@@ -142,16 +131,9 @@ public class LVLPlanet extends Level implements MenuButtonListener {
     }
 
     @Override
-    public void dispose() {
-        end();
-        super.dispose();
-    }
-
-    @Override
     public void onClick(GOMenuButton menuButton) {
         switch (menuButton.getType()){
             case MAIN_MENU:
-                //end();
                 GameLauncher.getLevelHandler().setCurrentLevel(GameLauncher.lvlMainMenu);
                 break;
             case RESTART:
@@ -163,41 +145,34 @@ public class LVLPlanet extends Level implements MenuButtonListener {
     @Override
     public void save(FileHandler fileHandler, GameData gameData) {
         fileHandler.putPreferencesInt("gems",GameLauncher.BALANCE);
+        fileHandler.savePreferences();
         super.save(fileHandler, gameData);
-    }
-
-    public int getScore() {
-        return GameLauncher.BALANCE;
-    }
-
-    private void setScore(int score) {
-        GameLauncher.BALANCE = score;
-        digitRenderer.setNumber(score);
-    }
-
-    public boolean isGameOver() {
-        return gameOver;
     }
 
     public void setGameOver(boolean gameOver) {
         //Save the score if it's not gameOver yet.
         if(gameOver == true && this.gameOver == false){
             save(GameLauncher.getFileHandler(), GameLauncher.getGameData());
+            //set car to not respond to user input
             car.setControllable(false);
+
+            //Add game over buttons
             menuButtonRestart = new GOMenuButton(MenuButtonTypes.RESTART,
                     Engine.getRenderHandler().getCamera().position.x,
-                    Engine.getRenderHandler().getCamera().position.y + 3f,
+                    Engine.getRenderHandler().getCamera().position.y + 16f,
                     this
             );
 
             menuButtonMainMenu = new GOMenuButton(MenuButtonTypes.MAIN_MENU,
                     Engine.getRenderHandler().getCamera().position.x,
-                    Engine.getRenderHandler().getCamera().position.y - 3f,
+                    Engine.getRenderHandler().getCamera().position.y - 32f,
                     this
             );
 
             addGameObject(menuButtonRestart);
             addGameObject(menuButtonMainMenu);
+
+            //Play game over sound
             GameLauncher.getAssetHandler().getSound("sndLoss").play();
         }
 
@@ -209,4 +184,32 @@ public class LVLPlanet extends Level implements MenuButtonListener {
         save(GameLauncher.getFileHandler(),GameLauncher.getGameData());
         super.end();
     }
+
+    @Override
+    public void dispose() {
+        end();
+        super.dispose();
+    }
+
+    public float getPlanetSize(){
+        return planetSize;
+    }
+
+    public int getGemSpawnChance() {
+        return gemSpawnChance;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public int getScore() {
+        return GameLauncher.BALANCE;
+    }
+
+    private void setScore(int score) {
+        GameLauncher.BALANCE = score;
+        digitRenderer.setNumber(score);
+    }
+
 }

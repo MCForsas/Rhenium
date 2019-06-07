@@ -2,9 +2,7 @@ package com.mcforsas.game.levels;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mcforsas.game.GameLauncher;
-import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.Level;
-import com.mcforsas.game.engine.core.Utils;
 import com.mcforsas.game.engine.handlers.AssetHandler;
 import com.mcforsas.game.gameObjects.GOMenuButton;
 import com.mcforsas.game.gameObjects.GOSkinShop;
@@ -23,6 +21,7 @@ public class LVLShop extends Level implements MenuButtonListener {
         addGameObject(new GOSkinShop());
         addGameObject(new GOMenuButton(MenuButtonTypes.MAIN_MENU,-24f,-48f,this));
 
+        //Add background
         sprite = new Sprite(AssetHandler.getTexture("sprStars"));
         sprite.setSize(heigth*(1+GameLauncher.MAX_ASPECT_DEVIATION),heigth*(1+GameLauncher.MAX_ASPECT_DEVIATION));
         sprite.setOriginCenter();

@@ -11,7 +11,7 @@ import com.mcforsas.game.engine.handlers.AssetHandler;
 
 /**
  * Created by mcforsas on 19.5.25
- * Menu button, used in menus. Duhhh.
+ * Menu button, used in menus. Calls up it's listeners upon touch down
  */
 public class GOMenuButton extends GameObject {
     private MenuButtonTypes type;
@@ -29,6 +29,8 @@ public class GOMenuButton extends GameObject {
     @Override
     public void start() {
         setDepth(-10);
+
+        //region <Choose sprites>
         switch (type) {
             case START:
                 this.sprite = new Sprite(GameLauncher.getAssetHandler().getTexture("sprButtonStart"));
@@ -62,6 +64,7 @@ public class GOMenuButton extends GameObject {
                 break;
         }
 
+        //endregion
         super.start();
     }
 
@@ -87,13 +90,10 @@ public class GOMenuButton extends GameObject {
 
     @Override
     public void touchUp(float x, float y) {
-
         if(Utils.isOnSprite(sprite,x,y)){
             listener.onClick(this);
             AssetHandler.getSound("sndButtonClick").play();
         }
-
-
 
         super.touchUp(x, y);
     }

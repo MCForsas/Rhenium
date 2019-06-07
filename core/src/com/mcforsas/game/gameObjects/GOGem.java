@@ -32,7 +32,8 @@ public class GOGem extends GameObject {
         sprite.setSize(8,8);
         sprite.setOriginCenter();
         sprite.setOriginBasedPosition(x,y);
-        sprite.setRotation((Integer) Utils.choose(0,90,180,270));
+        sprite.setRotation((Integer) Utils.choose(0,90,180,270)); //Rotate in a random direction, so it's more
+        //varied and doesn't look as ugly
 
         super.start();
     }
@@ -46,7 +47,7 @@ public class GOGem extends GameObject {
             end();
         }
 
-
+        //If it's life lenght is exceeded
         if(tick >= lifeLength){
             end();
         }

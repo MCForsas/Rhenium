@@ -49,15 +49,9 @@ public class LVLMainMenu extends Level implements MenuButtonListener {
 
     @Override
     public void onClick(GOMenuButton menuButton) {
-
-        //Go to planet level if the start button is pressed
         switch (menuButton.getType()) {
             case START:
                 GameLauncher.getLevelHandler().setCurrentLevel(GameLauncher.lvlPlanet);
-                break;
-            case RESTART:
-                break;
-            case MAIN_MENU:
                 break;
             case SHOP:
                 GameLauncher.getLevelHandler().setCurrentLevel(GameLauncher.lvlShop);

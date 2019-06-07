@@ -51,16 +51,21 @@ public class GOSkinShop extends GameObject {
 
         Engine.getInputHandler().addInputListener(this);
 
+        //Position skins
         for(int i = 0; i < SKIN_AMOUNT; i++){
             skins.get(i).setY(i * (GOSkin.skinDimensions + padding) + scrollPos);
         }
 
+        //Add a digit renderer displaying players in game cash
         digitRenderer = new GODigitRenderer(GameLauncher.BALANCE,-24f,48f);
         digitRenderer.setHeight(16f);
         digitRenderer.setX(digitRenderer.getX() - digitRenderer.getStringWidth()/2f);
-        level.addGameObject(digitRenderer);
+
+        //Add a digit renderer displaying skin prices
         GODigitRenderer digitRendererPrice = new GODigitRenderer(skinPrice,-36f,0f);
         digitRendererPrice.setHeight(16f);
+
+        level.addGameObject(digitRenderer);
         level.addGameObject(digitRendererPrice);
 
         super.start();
@@ -70,6 +75,7 @@ public class GOSkinShop extends GameObject {
 
         if(!skin.isUnlocked()){
             if(GameLauncher.BALANCE >= skinPrice){
+                //Buy, charge player, select skin and play sound to buy a skin
                 GameLauncher.BALANCE -= skinPrice;
                 skin.setUnlocked(true);
                 skin.setSelected(true);
@@ -100,21 +106,26 @@ public class GOSkinShop extends GameObject {
     @Override
     public void touchDragged(float x, float y) {
         super.touchDragged(x, y);
+
+
         for(int i = 0; i < SKIN_AMOUNT; i++){
             skins.get(i).setY(i * (GOSkin.skinDimensions + padding) + scrollPos);
         }
 
+        //Change variable, so the user can scroll up and down
         scrollPos +=  (y -touchY)*scrollSpeed;
         scrollPos = Utils.clamp(scrollPos,-SKIN_AMOUNT * (GOSkin.skinDimensions + padding) + GOSkin.skinDimensions*3, -GOSkin.skinDimensions*2);
     }
 
     @Override
     public void save(FileHandler fileHandler, GameData gameData) {
+        //Save skin unlock states
         for(int i = 0; i < SKIN_AMOUNT; i++) {
             GameLauncher.getFileHandler().putPreferencesBoolean("isSkinUnlocked"+i,skins.get(i).isUnlocked());
         }
 
         GameLauncher.getFileHandler().putPreferencesInt("skinSelected",GameLauncher.SKIN_SELECTED);
+        fileHandler.savePreferences();
         super.save(fileHandler, gameData);
     }
 

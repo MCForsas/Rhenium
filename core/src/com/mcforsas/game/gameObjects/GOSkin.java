@@ -15,12 +15,14 @@ import java.awt.image.SinglePixelPackedSampleModel;
 
 /**
  * @author mcforsas on
- * @desc Replace this text by description, of what this code is for
+ * An object which is used to choose a car skin or unlock a new one
  */
 
 public class GOSkin extends GameObject {
+
     private GOSkinShop shop;
-    private int index;
+    private int index; //Skin to unlock index
+
     public static final String SKIN_PREFIX = "sprSkin";
     public static final float skinDimensions = 24f;
     private boolean isUnlocked;
@@ -31,7 +33,7 @@ public class GOSkin extends GameObject {
 
     private Sprite selected;
 
-    private boolean maySelect = false;
+    private boolean maySelect = false; //If the user has tapped on the item but not released the cursor yet
 
     public GOSkin(GOSkinShop shop, int index, boolean isUnlocked, float x, float y) {
         this.shop = shop;
@@ -40,9 +42,15 @@ public class GOSkin extends GameObject {
         this.x = x;
         this.y = y;
 
+        setUnlocked(isUnlocked);
+
+    }
+
+    @Override
+    public void start() {
         //Load a sprite by index
         this.sprite = new Sprite(
-          GameLauncher.getAssetHandler().getTexture(SKIN_PREFIX + index)
+                GameLauncher.getAssetHandler().getTexture(SKIN_PREFIX + index)
         );
 
         unlockedTexture = sprite.getTexture();
@@ -57,12 +65,9 @@ public class GOSkin extends GameObject {
         sprite.setOriginCenter();
         sprite.setOriginBasedPosition(x,y);
 
-
-
-        setUnlocked(isUnlocked);
-
         Engine.getInputHandler().addInputListener(this);
         setDepth(-10);
+        super.start();
     }
 
     @Override
@@ -91,6 +96,7 @@ public class GOSkin extends GameObject {
     @Override
     public void touchUp(float x, float y) {
 
+        //If the user has touched and released the finger on the same sprite, buy the skin
         if(Utils.isOnSprite(sprite,x,y) && maySelect){
             shop.onClick(this);
         }
