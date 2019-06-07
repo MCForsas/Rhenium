@@ -13,6 +13,7 @@ This repo is initiated in the root of intellij idea project folder. Some of the 
 This is a game set on Mars. All you do is drive around and pickup gems. Your objective is to pickup as many gems as possible and unlock all the skins. To do this you drive around the planet's surface, avoiding meteor craters, which after sometime turn into gems, which you can collect.
 With the collected gems you can buy skins at the game shop and pimp your ride. Not much after that.
 control by tapping left or right side of the screen.
+
 <img style="" src="https://raw.githubusercontent.com/MCForsas/Rhenium/shop-fix/screenshots/Screenshot%20from%202019-06-07%2018-02-07.png" alt="Game screen"/>
 
 ### Some remarks
