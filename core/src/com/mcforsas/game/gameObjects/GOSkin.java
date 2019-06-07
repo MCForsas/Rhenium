@@ -5,17 +5,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.Engine;
-import com.mcforsas.game.engine.core.GameData;
 import com.mcforsas.game.engine.core.GameObject;
 import com.mcforsas.game.engine.core.Utils;
 import com.mcforsas.game.engine.handlers.AssetHandler;
-import com.mcforsas.game.engine.handlers.FileHandler;
-
-import java.awt.image.SinglePixelPackedSampleModel;
 
 /**
  * @author mcforsas on
- * @desc Replace this text by description, of what this code is for
+ * An object which is used to choose a car skin or unlock a new one
  */
 
 public class GOSkin extends GameObject {
@@ -31,8 +27,11 @@ public class GOSkin extends GameObject {
 
     private Sprite selected;
 
-    private boolean maySelect = false;
+    private boolean maySelect = false;//If the user has tapped on the item but not released the cursor yet
 
+    /**
+     * Not using the start event becauses it causes some bug, where whole level wouldn't load.
+     */
     public GOSkin(GOSkinShop shop, int index, boolean isUnlocked, float x, float y) {
         this.shop = shop;
         this.index = index;
@@ -90,7 +89,7 @@ public class GOSkin extends GameObject {
 
     @Override
     public void touchUp(float x, float y) {
-
+        //If the user has touched and released the finger on the same sprite, buy the skin
         if(Utils.isOnSprite(sprite,x,y) && maySelect){
             shop.onClick(this);
         }

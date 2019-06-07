@@ -6,10 +6,10 @@ import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.Level;
 import com.mcforsas.game.engine.core.Utils;
 import com.mcforsas.game.engine.handlers.AssetHandler;
-import com.mcforsas.game.engine.handlers.RenderHandler;
 import com.mcforsas.game.gameObjects.*;
 
 /**
+ *
  * Created by mcforsas on 19.5.25
  * Main menu, from which the game starts.
  */
@@ -49,15 +49,9 @@ public class LVLMainMenu extends Level implements MenuButtonListener {
 
     @Override
     public void onClick(GOMenuButton menuButton) {
-
-        //Go to planet level if the start button is pressed
         switch (menuButton.getType()) {
             case START:
                 GameLauncher.getLevelHandler().setCurrentLevel(GameLauncher.lvlPlanet);
-                break;
-            case RESTART:
-                break;
-            case MAIN_MENU:
                 break;
             case SHOP:
                 GameLauncher.getLevelHandler().setCurrentLevel(GameLauncher.lvlShop);

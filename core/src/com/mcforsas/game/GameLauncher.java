@@ -26,8 +26,10 @@ import com.mcforsas.game.levels.LVLShop;
 public class GameLauncher extends Engine {
     public static final float MAX_ASPECT_DEVIATION = .2f;
 
-    public static int BALANCE;
-    public static int SKIN_SELECTED;
+    public static int BALANCE; //How much currency does the player have
+    public static int SKIN_SELECTED; //Which of the custom skins is selected
+
+
     public static LVLMainMenu lvlMainMenu;
     public static LVLShop lvlShop;
     public static LVLPlanet lvlPlanet;
@@ -158,6 +160,7 @@ public class GameLauncher extends Engine {
         }
 
         fileHandler.putPreferencesBoolean("music",setPlaying);
+        fileHandler.savePreferences();
     }
 
     public static boolean isMusicPlaying(){

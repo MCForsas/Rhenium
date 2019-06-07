@@ -9,7 +9,8 @@ import java.util.HashMap;
 
 /**
  * Created by mcforsas on 19.5.28
- * Renders digits. Monospaced font
+ * This class renders and integer. It needs 10 textures for numbers. Max height can be set, so it expands in width or
+ * max width, so it shrinks in height
  */
 public class GODigitRenderer extends GameObject {
     private int number; //Number to render;
@@ -35,6 +36,7 @@ public class GODigitRenderer extends GameObject {
     public void start() {
         this.numberLength = String.valueOf(number).length();
 
+        //Load textures
         for(int i = 0; i < 10; i++){
             textureHashMap.put(String.valueOf(i), GameLauncher.getAssetHandler().getTexture(TEXTURE_PREFIX + i));
         }
@@ -45,6 +47,9 @@ public class GODigitRenderer extends GameObject {
         super.start();
     }
 
+    /**
+     * Refreshes digit dimensions if defaults are chosen (0 height or 0 width)
+     */
     private void refreshDimensions(){
         if(width == 0){
             width = height/2f;
@@ -104,7 +109,7 @@ public class GODigitRenderer extends GameObject {
     }
 
     /**
-     * Sets the width for whole string
+     * Sets the width for whole string, so it always uses constant width and shrinks in size if that number is exceeded
      * @param width
      */
     public void setStringWidth(float width){
