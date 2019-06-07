@@ -15,6 +15,7 @@ public class LevelHandler extends Renderable {
     private Vector<Level> levels = new Vector<Level>();
     private Level currentLevel;
     private boolean paused = false;
+    private final boolean REPORT_LEVEL_IS_NULL = false;
 
     //region <Level methods>
     public void startLevel() {
@@ -25,7 +26,8 @@ public class LevelHandler extends Renderable {
         try {
             level.start();
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            if(REPORT_LEVEL_IS_NULL)
+                e.printStackTrace();
         }
     }
 
@@ -35,7 +37,8 @@ public class LevelHandler extends Renderable {
             if (!paused && level.isStarted())
                 level.update(deltaTime);
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            if(REPORT_LEVEL_IS_NULL)
+                e.printStackTrace();
         }
     }
 
@@ -47,7 +50,8 @@ public class LevelHandler extends Renderable {
         try {
             level.end();
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            if(REPORT_LEVEL_IS_NULL)
+                e.printStackTrace();
         }
     }
 
@@ -68,7 +72,8 @@ public class LevelHandler extends Renderable {
         try {
             level.dispose();
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            if(REPORT_LEVEL_IS_NULL)
+                e.printStackTrace();
         }
     }
 
@@ -148,7 +153,6 @@ public class LevelHandler extends Renderable {
     public void setCurrentLevel(Level level) throws NullPointerException{
         endLevel();
         this.currentLevel = level;
-        //DEBUG:
         if(level == null)
             throw new NullPointerException();
         if(!level.isStarted()){

@@ -16,7 +16,7 @@ public class GOCar extends GameObject {
 
     private float moveSpeed = 1f;
     private float direction = 90f; //Direction in degrees;
-    private float turnSpeed =  3f;
+    private float turnSpeed =  4f;
     private int turnDirection = 0; //Variable used for touch input
     private boolean isControllable = true;
     private float size;

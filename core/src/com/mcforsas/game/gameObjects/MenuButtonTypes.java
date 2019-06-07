@@ -6,8 +6,8 @@ package com.mcforsas.game.gameObjects;
  */
 public enum MenuButtonTypes {
     START,
-    PAUSE,
     RESTART,
     MAIN_MENU,
-    SHOP
+    SHOP,
+    MUSIC
 }

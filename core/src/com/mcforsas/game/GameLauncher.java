@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mcforsas.game.engine.core.Engine;
+import com.mcforsas.game.engine.core.Utils;
+import com.mcforsas.game.engine.handlers.AssetHandler;
 import com.mcforsas.game.engine.handlers.CameraHandler;
 import com.mcforsas.game.engine.handlers.FileHandler;
 import com.mcforsas.game.gameObjects.GODigitRenderer;
@@ -23,11 +25,15 @@ import com.mcforsas.game.levels.LVLShop;
  */
 public class GameLauncher extends Engine {
     public static final float MAX_ASPECT_DEVIATION = .2f;
+
     public static int BALANCE;
     public static int SKIN_SELECTED;
     public static LVLMainMenu lvlMainMenu;
     public static LVLShop lvlShop;
     public static LVLPlanet lvlPlanet;
+
+    public static Music music;
+
 
     //Config here
     public GameLauncher() {
@@ -70,6 +76,12 @@ public class GameLauncher extends Engine {
         levelHandler.addLevel(lvlPlanet);
         levelHandler.addLevel(lvlShop);
 
+        music = AssetHandler.getMusic("musMainTheme");
+        music.setLooping(true);
+
+        boolean isMusPlaying = (Boolean) GameLauncher.getFileHandler().getPreferences("music", Boolean.class,true);
+        GameLauncher.setMusicPlaying(isMusPlaying);
+
         super.startGame();
     }
 
@@ -109,14 +121,21 @@ public class GameLauncher extends Engine {
         //load shop icons
         assetHandler.addToQueue(Texture.class, "sprShopSelect","shop/select.png");
         assetHandler.addToQueue(Texture.class, "sprShopLocked","shop/locked.png");
+        assetHandler.addToQueue(Texture.class, "sprMusic","music.png");
         //endregion
 
         //region <Sounds>
-        assetHandler.addToQueue(Music.class, "musExample","example.ogg");
-        assetHandler.addToQueue(Sound.class, "sndExample","test.wav");
-        assetHandler.addToQueue(Sound.class, "sndExplode","explode.mp3");
-        assetHandler.addToQueue(Sound.class, "sndGem","gem.mp3");
-        assetHandler.addToQueue(Sound.class, "sndGemPickup","gem_pickup.mp3");
+        assetHandler.addToQueue(Music.class, "musMainTheme","main_theme.wav");
+
+        assetHandler.addToQueue(Sound.class,"sndButtonClick","button_click.ogg");
+        assetHandler.addToQueue(Sound.class,"sndShopSelect","shop_select.ogg");
+        assetHandler.addToQueue(Sound.class,"sndShopLocked","shop_locked.ogg");
+        assetHandler.addToQueue(Sound.class,"sndShopUnlock","shop_unlock.ogg");
+        assetHandler.addToQueue(Sound.class,"sndExplosion","explosion.ogg");
+        assetHandler.addToQueue(Sound.class,"sndGemPickup","gem_pickup.ogg");
+        assetHandler.addToQueue(Sound.class,"sndMeteorDrop","meteor_drop.ogg");
+        assetHandler.addToQueue(Sound.class,"sndLoss","loss.ogg");
+
         //endregion
         super.loadAssets();
     }
@@ -126,6 +145,22 @@ public class GameLauncher extends Engine {
         assetHandler.dispose();
         levelHandler.dispose();
         levelHandler.save(fileHandler,gameData);
+        music.dispose();
+
         super.dispose();
+    }
+
+    public static void setMusicPlaying(boolean setPlaying){
+        if(setPlaying){
+            music.play();
+        }else{
+            music.stop();
+        }
+
+        fileHandler.putPreferencesBoolean("music",setPlaying);
+    }
+
+    public static boolean isMusicPlaying(){
+        return music.isPlaying();
     }
 }

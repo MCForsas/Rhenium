@@ -66,7 +66,7 @@ public class GOMeteor extends GameObject {
                 if(Utils.chance(LVLPlanet.getGemSpawnChance())){
                     LVLPlanet.addGameObject(new GOGem(x,y,this.depth, LVLPlanet,car));
                     if(Utils.distanceBetweenPoints(x,y,car.getX(), car.getY()) <= explodeDistance){
-                        GameLauncher.getAssetHandler().getSound("sndGem").play();
+                        GameLauncher.getAssetHandler().getSound("sndMeteorDrop").play();
                     }
                 }
                 end();
@@ -79,7 +79,7 @@ public class GOMeteor extends GameObject {
 
             //If the meteor get's outside the planet, destroy it
             if(Utils.distanceBetweenPoints(x,y, level.getWidth()/2f,level.getHeigth()/2f)
-                            > LVLPlanet.getPlanetDiameter()/2f){
+                            > LVLPlanet.getPlanetSize()/2f){
                 end();
             }
 
@@ -93,8 +93,12 @@ public class GOMeteor extends GameObject {
             //Ground the meteor if it's near the car and is not outside the planet
             if(Utils.distanceBetweenPoints(x,y,car.getX(), car.getY()) <= explodeDistance
                     && Utils.distanceBetweenPoints(x,y,level.getWidth()/2f,level.getHeigth()/2f)
-                    <= LVLPlanet.getPlanetDiameter()/2f){
+                    <= LVLPlanet.getPlanetSize()/2f){
                 setOnGround(true);
+
+                if(Utils.distanceBetweenPoints(x,y,car.getX(),car.getY()) <= explodeDistance*.7f) {
+                    GameLauncher.getAssetHandler().getSound("sndExplosion").play();
+                }
             }
         }
 

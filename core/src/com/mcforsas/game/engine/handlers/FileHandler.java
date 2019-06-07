@@ -134,6 +134,10 @@ public class FileHandler {
     public Object getPreferences(String key, Class type, Object defaultValue){
         Object data = null;
 
+        if(!preferences.contains(key)){
+            return defaultValue;
+        }
+
         if(type == String.class){
             data =  getPreferencesString(key);
         }else if(type == Boolean.class){

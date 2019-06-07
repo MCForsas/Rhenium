@@ -29,7 +29,7 @@ public class GOGem extends GameObject {
 
     @Override
     public void start() {
-        sprite.setSize(16,16);
+        sprite.setSize(8,8);
         sprite.setOriginCenter();
         sprite.setOriginBasedPosition(x,y);
         sprite.setRotation((Integer) Utils.choose(0,90,180,270));
@@ -53,7 +53,7 @@ public class GOGem extends GameObject {
 
         //If the gem get's outside the planet, destroy it
         if(Utils.distanceBetweenPoints(x,y, LVLPlanet.getWidth()/2, LVLPlanet.getHeigth()/2)
-                > LVLPlanet.getPlanetDiameter()/2){
+                > LVLPlanet.getPlanetSize()/2){
             end();
         }
 

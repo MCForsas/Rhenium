@@ -7,6 +7,7 @@ import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.GameObject;
 import com.mcforsas.game.engine.core.Utils;
+import com.mcforsas.game.engine.handlers.AssetHandler;
 
 /**
  * Created by mcforsas on 19.5.25
@@ -53,6 +54,12 @@ public class GOMenuButton extends GameObject {
                 this.sprite.setOriginCenter();
                 this.sprite.setOriginBasedPosition(x,y);
                 break;
+            case MUSIC:
+                this.sprite = new Sprite(GameLauncher.getAssetHandler().getTexture("sprMusic"));
+                this.sprite.setSize(12f,12f);
+                this.sprite.setOriginCenter();
+                this.sprite.setOriginBasedPosition(x,y);
+                break;
         }
 
         super.start();
@@ -83,6 +90,7 @@ public class GOMenuButton extends GameObject {
 
         if(Utils.isOnSprite(sprite,x,y)){
             listener.onClick(this);
+            AssetHandler.getSound("sndButtonClick").play();
         }
 
 

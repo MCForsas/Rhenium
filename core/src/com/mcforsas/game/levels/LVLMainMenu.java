@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.Level;
+import com.mcforsas.game.engine.core.Utils;
 import com.mcforsas.game.engine.handlers.AssetHandler;
 import com.mcforsas.game.engine.handlers.RenderHandler;
 import com.mcforsas.game.gameObjects.*;
@@ -16,6 +17,7 @@ public class LVLMainMenu extends Level implements MenuButtonListener {
 
     private GOMenuButton menuButtonStart;
     private GOMenuButton menuButtonShop;
+    private GOMenuButton menuButtonMusic;
 
     private GODigitRenderer digitRenderer;
 
@@ -24,6 +26,7 @@ public class LVLMainMenu extends Level implements MenuButtonListener {
 
         menuButtonStart = new GOMenuButton(MenuButtonTypes.START, width/2f,80,this);
         menuButtonShop = new GOMenuButton(MenuButtonTypes.SHOP, width/2f,32,this);
+        menuButtonMusic = new GOMenuButton(MenuButtonTypes.MUSIC, width-12f,heigth-12f,this);
 
         digitRenderer = new GODigitRenderer(GameLauncher.BALANCE,width/2,128);
         digitRenderer.setHeight(16f);
@@ -36,6 +39,7 @@ public class LVLMainMenu extends Level implements MenuButtonListener {
 
         addGameObject(menuButtonStart);
         addGameObject(menuButtonShop);
+        addGameObject(menuButtonMusic);
 
         addGameObject(digitRenderer);
 
@@ -47,12 +51,9 @@ public class LVLMainMenu extends Level implements MenuButtonListener {
     public void onClick(GOMenuButton menuButton) {
 
         //Go to planet level if the start button is pressed
-
         switch (menuButton.getType()) {
             case START:
                 GameLauncher.getLevelHandler().setCurrentLevel(GameLauncher.lvlPlanet);
-                break;
-            case PAUSE:
                 break;
             case RESTART:
                 break;
@@ -60,6 +61,9 @@ public class LVLMainMenu extends Level implements MenuButtonListener {
                 break;
             case SHOP:
                 GameLauncher.getLevelHandler().setCurrentLevel(GameLauncher.lvlShop);
+                break;
+            case MUSIC:
+                GameLauncher.setMusicPlaying(Utils.flipBoolean(GameLauncher.isMusicPlaying()));
                 break;
         }
     }

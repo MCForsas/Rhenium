@@ -31,6 +31,8 @@ public class GOSkin extends GameObject {
 
     private Sprite selected;
 
+    private boolean maySelect = false;
+
     public GOSkin(GOSkinShop shop, int index, boolean isUnlocked, float x, float y) {
         this.shop = shop;
         this.index = index;
@@ -46,7 +48,6 @@ public class GOSkin extends GameObject {
         unlockedTexture = sprite.getTexture();
         lockedTexture = GameLauncher.getAssetHandler().getTexture("sprShopLocked");
 
-        //TODO: make normal texture
         selected = new Sprite(AssetHandler.getTexture("sprShopSelect"));
         selected.setSize(skinDimensions,skinDimensions);
         selected.setOriginCenter();
@@ -80,11 +81,21 @@ public class GOSkin extends GameObject {
     }
 
     @Override
+    public void touchDown(float x, float y) {
+        if(Utils.isOnSprite(sprite,x,y)){
+            maySelect = true;
+        }
+        super.touchDown(x, y);
+    }
+
+    @Override
     public void touchUp(float x, float y) {
 
-        if(Utils.isOnSprite(sprite,x,y)){
+        if(Utils.isOnSprite(sprite,x,y) && maySelect){
             shop.onClick(this);
         }
+
+        maySelect = false;
         super.touchUp(x, y);
     }
 

@@ -1,6 +1,5 @@
 package com.mcforsas.game.levels;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.GameLauncher;
@@ -13,10 +12,6 @@ import com.mcforsas.game.gameObjects.*;
  * Level holds game objects, varibles and shows planet sprite.
  */
 public class LVLPlanet extends Level implements MenuButtonListener {
-
-    private float shrinkProgress; //How much the planet has shrunken
-    private float shrinkSpeed;
-
     private int meteorSpawnPeriod; //What's the tick period between meteor spawning
     private int difficultyLevel;
     private int difficultyIncreasePeriod; //How often the difficulty increases
@@ -41,15 +36,13 @@ public class LVLPlanet extends Level implements MenuButtonListener {
     @Override
     public void start() {
         gameOver = false;
-        shrinkSpeed = 0f;//.0001f;
         meteorSpawnPeriod = 50;
         difficultyLevel = 0;
         difficultyIncreasePeriod = 800;
-        gemSpawnChance = 60;
+        gemSpawnChance = 70;
         fontSize = 16f;
         tick = 0;
         carSize = 12f;
-        shrinkProgress = 1f;
         setDepth(100);
 
         sprite = new Sprite(Engine.getAssetHandler().getTexture("sprPlanet"));
@@ -87,21 +80,9 @@ public class LVLPlanet extends Level implements MenuButtonListener {
         }
 
 
-        //Shrink the planet until it's just little enough to drive on
-        if(shrinkProgress >= .2f) {
-            shrinkProgress -= shrinkSpeed;
-        }else {
-            //TODO: game over?
-        }
-
-        //Ease in planet's shrinkige
-        //TODO: review if it's needed
-        sprite.setScale(shrinkProgress);
-
-
 
         //Check if car is outside of planet:
-        if(Utils.distanceBetweenPoints(car.getX(), car.getY(), getWidth()/2, getHeigth()/2) >= getPlanetDiameter()/2){
+        if(Utils.distanceBetweenPoints(car.getX(), car.getY(), getWidth()/2, getHeigth()/2) >= getPlanetSize()/2){
             setGameOver(true);
         }
 
@@ -143,8 +124,8 @@ public class LVLPlanet extends Level implements MenuButtonListener {
      * Return planet's diameter in units.
      * @return planetsDiameter
      */
-    public float getPlanetDiameter(){
-        return shrinkProgress * planetSize;
+    public float getPlanetSize(){
+        return planetSize;
     }
 
     public int getGemSpawnChance() {
@@ -217,7 +198,7 @@ public class LVLPlanet extends Level implements MenuButtonListener {
 
             addGameObject(menuButtonRestart);
             addGameObject(menuButtonMainMenu);
-            GameLauncher.getAssetHandler().getSound("sndExplode").play();
+            GameLauncher.getAssetHandler().getSound("sndLoss").play();
         }
 
         this.gameOver = gameOver;

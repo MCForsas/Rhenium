@@ -4,6 +4,7 @@ import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.GameData;
 import com.mcforsas.game.engine.core.GameObject;
 import com.mcforsas.game.engine.core.Utils;
+import com.mcforsas.game.engine.handlers.AssetHandler;
 import com.mcforsas.game.engine.handlers.FileHandler;
 
 import java.util.Vector;
@@ -20,7 +21,7 @@ public class GOSkinShop extends GameObject {
     private float scrollSpeed = .05f;
     private float scrollPos = -SKIN_AMOUNT * (GOSkin.skinDimensions + padding) + GOSkin.skinDimensions*3;
 
-    private final int skinPrice = 100;
+    private final int skinPrice = 75;
 
     private GODigitRenderer digitRenderer;
 
@@ -74,8 +75,9 @@ public class GOSkinShop extends GameObject {
                 skin.setSelected(true);
                 setSelectedSkin(skin.getIndex());
                 digitRenderer.setNumber(GameLauncher.BALANCE);
+                AssetHandler.getSound("sndShopUnlock").play();
             }else{
-                //TODO: play a sound
+                AssetHandler.getSound("sndShopLocked").play();
             }
         }else{
             setSelectedSkin(skin.getIndex());
@@ -86,6 +88,7 @@ public class GOSkinShop extends GameObject {
         skins.get(GameLauncher.SKIN_SELECTED).setSelected(false); //unselect selected skin
         GameLauncher.SKIN_SELECTED = index;
         skins.get(index).setSelected(true);
+        AssetHandler.getSound("sndShopSelect").play();
     }
 
     @Override
